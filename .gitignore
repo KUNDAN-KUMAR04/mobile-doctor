@@ -1,0 +1,4 @@
+node_modules/
+converter-app/node_modules/
+.env
+.vercel
