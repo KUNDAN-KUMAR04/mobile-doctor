@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Doctor Hyderabad | Expert Phone Repair Services</title>
+    <meta name="description" content="Mobile Doctor offers comprehensive mobile phone repair services in Hyderabad. Specializing in all brands, fast repairs, and genuine parts.">
+    <meta name="keywords" content="mobile repair Hyderabad, phone repair Hyderabad, smartphone service Hyderabad, best mobile repair Hyderabad">
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background 0.3s ease, backdrop-filter 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo::before {
+            content: "📱";
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #74b9ff;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0px); /* For parallax effect */
+            transition: transform 0.1s ease-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="0%" r="100%"><stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0.1" /><stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:0" /></radialGradient></defs><rect width="100" height="20" fill="url(%23a)" /></svg>') repeat-x;
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            position: relative; /* For ripple effect */
+            overflow: hidden; /* For ripple effect */
+        }
+
+        .btn-primary {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid #dee2e6;
+            opacity: 0; /* Initial state for lazy loading */
+            transform: translateY(50px); /* Initial state for lazy loading */
+            transition: all 0.6s ease-out; /* For lazy loading animation */
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #74b9ff, #0984e3); /* Hover effect */
+            color: white; /* Hover effect */
+        }
+        .service-card:hover .service-icon,
+        .service-card:hover h3 {
+            color: white; /* Change icon and title color on hover */
+        }
+
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: inherit; /* Inherit color, will be changed on hover */
+            transition: color 0.3s;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            transition: color 0.3s;
+        }
+
+        /* Professional Reviews Section */
+        .reviews {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f1f2f6, #ddd6fe);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reviews::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(116,185,255,0.1)"/><circle cx="90" cy="90" r="1" fill="rgba(116,185,255,0.1)"/><circle cx="50" cy="30" r="0.5" fill="rgba(116,185,255,0.15)"/></svg>') repeat;
+            opacity: 0.5;
+        }
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reviews-header h2 {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .reviews-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .trust-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .trust-badge .icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .trust-badge .text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(116,185,255,0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #74b9ff);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #00d084, #00b894);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .reviews-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            color: rgba(52,152,219,0.1);
+            font-family: serif;
+        }
+
+        .review-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-left-color: #74b9ff;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reviewer-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #3498db, #74b9ff);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .reviewer-details h4 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .star {
+            color: #f39c12;
+            font-size: 1rem;
+        }
+
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .verified-badge {
+            background: linear-gradient(135deg, #00d084, #00b894);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .review-content {
+            color: #5a6c7d;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .review-service {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #3498db;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .auto-update-info {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .update-indicator {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #3498db, #74b9ff);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .sync-icon {
+            animation: rotate 2s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+        }
+
+        .features {
+            list-style: none;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .about-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border-radius: 15px;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 10s linear infinite;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: #2c3e50;
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #74b9ff;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(10px);
+        }
+
+        .contact-item .icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        .contact-form {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #74b9ff;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-success {
+            background: linear-gradient(135deg, #00d084, #00b894);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background: #34495e;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .quick-links-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .quick-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* New section for external links */
+        .external-links-section {
+            padding: 50px 0;
+            background: #f1f2f6;
+            text-align: center;
+        }
+
+        .external-links-section p {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .external-links-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .external-link-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #3498db, #74b9ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .external-link-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #5faee7);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+
+        /* Footer */
+        footer {
+            background: #1a252f;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #74b9ff;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #74b9ff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #95a5a6;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #2c3e50;
+                padding: 1rem;
+                gap: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-indicators {
+                gap: 1rem;
+            }
+
+            .trust-badge {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .reviews-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 10px;
+            z-index: 10001;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Message Box Styles */
+        #customMessageBox {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #3498db; /* Default info */
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10000;
+            text-align: center;
+            max-width: 400px;
+            opacity: 0; /* Initial state for animation */
+            animation: fadeIn 0.3s forwards;
+        }
+
+        #customMessageBox button {
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.5rem;
+            background: white;
+            color: #3498db; /* Default info color */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+
+        #customMessageBox button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Animations for custom message box */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Form Validation Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Ripple effect for buttons */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Scroll indicator */
+        #scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60, #3498db);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Mobile Doctor",
+      "image": "https://placehold.co/1200x630/007bff/ffffff?text=Mobile+Doctor+Logo",
+      "@id": "https://your-domain.vercel.app/#organization",
+      "url": "https://your-domain.vercel.app/",
+      "telephone": "+919059447244",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "H No 5-1-140/4, Shop No 3, Annapurna Colony",
+        "addressLocality": "Mallapur",
+        "addressRegion": "Telangana",
+        "postalCode": "500076",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 17.4432899,
+        "longitude": 78.5674612
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "10:00",
+          "closes": "20:00"
+        }
+      ],
+      "sameAs": [
+        "https://api.whatsapp.com/send/?phone=9059447244&text&type=phone_number&app_absent=0",
+        "https://www.justdial.com/Hyderabad/Mobile-Doctor-Opp-May-Flower-Apartments-Mallapur/040PXX40-XX40-210304103555-T8I2_BZDET/",
+        "https://g.co/kgs/vpHbYGM"
+      ],
+      "hasMap": "https://g.co/kgs/vpHbYGM",
+      "description": "Expert mobile phone repair services in Hyderabad, specializing in screen, battery, and water damage repairs for all smartphone brands."
+    }
+    </script>
+</head>
+<body>
+    <div id="preloader">
+        <div style="font-size: 3rem; margin-bottom: 2rem;">📱</div>
+        <h2>Mobile Doctor</h2>
+        <div style="margin-top: 2rem;">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <div id="scroll-indicator"></div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">Mobile Doctor</div>
+            <ul class="nav-links">
+                <li><a href="index.html">index</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/iphone-screen-replacement/">iPhone Screen Repair</a></li>
+                <li><a href="/Battery Replacement/">Battery Replacement</a></li>
+                <li><a href="/water-damage-repair/">Water Damage Repair</a></li>
+                <li><a href="/mobile-repair-hyderabad/">Mobile Repair Hyderabad</a></li>
+                <li><a href="/mallapur-service-center/">Mallapur Service Center</a></li>
+		        <li><a href="/charging-port-repair/">Charging Port Repaire</a></li>
+            </ul>
+            <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Mobile Doctor - Leading Phone Repair in Hyderabad</h1>
+            <p>Your One-Stop Solution for All Mobile Phone Repair Needs</p>
+            <div class="cta-buttons">
+                <a href="tel:+919059447244" class="btn btn-primary">Call Now: +91 9059447244</a>
+                <a href="#services" class="btn btn-secondary">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Expert Mobile Repair Services</h2>
+            <div class="services-grid">
+                <a href="/iphone-screen-replacement/" class="service-card">
+                    <span class="service-icon">📱</span>
+                    <h3>Display Repair & Replacement</h3>
+                    <p>Cracked or malfunctioning screens fixed efficiently with genuine parts and professional expertise.</p>
+                </a>
+                <a href="/Battery Replacement/" class="service-card">
+                    <span class="service-icon">🔋</span>
+                    <h3>Battery Replacement</h3>
+                    <p>Long-lasting battery solutions to keep your phone powered throughout the day.</p>
+                </a>
+                <a href="/water-damage-repair/" class="service-card">
+                    <span class="service-icon">💧</span>
+                    <h3>Water Damage Restoration</h3>
+                    <p>Advanced techniques to recover water-damaged devices and restore functionality.</p>
+                </a>
+                <a href="/mobile-repair-hyderabad/" class="service-card">
+                    <span class="service-icon">⚙️</span>
+                    <h3>Comprehensive Mobile Repair</h3>
+                    <p>General mobile repair services for all brands and issues, including software and hardware.</p>
+                </a>
+                <a href="/mallapur-service-center/" class="service-card">
+                    <span class="service-icon">📍</span>
+                    <h3>Local Service Center - Mallapur</h3>
+                    <p>Visit our dedicated service center in Mallapur for on-the-spot repairs and expert consultation.</p>
+                </a>
+                <a href="/charging-port-repair/" class="service-card">
+                    <span class="service-icon">📞</span>
+                    <h3>Charging Port & Audio Repair</h3>
+                    <p>Restoring proper charging functionality and clear audio with quality replacement parts.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="reviews">
+        <div class="container">
+            <div class="reviews-header">
+                <h2>Customer Excellence</h2>
+                <p class="reviews-subtitle">Real testimonials from our satisfied customers - live updates from Google Business <br><span id="last-updated-time" style="font-size: 0.9em; color: #555;">Loading...</span></p>
+                
+                <div class="trust-indicators">
+                    <div class="trust-badge">
+                        <span class="icon">🏆</span>
+                        <span class="text">Google Verified</span>
+                    </div>
+                    <div class="trust-badge">
+                        <span class="icon">⭐</span>
+                        <span class="text">Top Rated</span>
+                    </div>
+                    <div class="trust-badge">
+                        <span class="icon">🛡️</span>
+                        <span class="text">Trusted Service</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="live-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="happyCustomers">5,247</div>
+                    <div class="stat-label">Happy Customers</div>
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        Live Count
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRepairs">18,350</div>
+                    <div class="stat-label">Successful Repairs</div>
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        Auto Updated
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="averageRating">4.9</div>
+                    <div class="stat-label">★ Google Rating</div>
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        Real Time
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="yearsExp">3+</div>
+                    <div class="stat-label">Years Excellence</div>
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        Verified
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-showcase">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">RK</div>
+                            <div class="reviewer-details">
+                                <h4>Rajesh Kumar</h4>
+                                <div class="review-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-meta">
+                            <span class="verified-badge">✓ Verified</span>
+                            <span>2 months ago</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        "Outstanding service! My iPhone 13 Pro screen was completely shattered after a fall. The team at Mobile Doctor not only fixed it perfectly but also provided a 6-month warranty. The repair quality is exceptional - you can't even tell it was damaged. Highly professional and trustworthy!"
+                    </div>
+                    <div class="review-service">Screen Replacement - iPhone 13 Pro</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">PS</div>
+                            <div class="reviewer-details">
+                                <h4>Priya Sharma</h4>
+                                <div class="review-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-meta">
+                            <span class="verified-badge">✓ Verified</span>
+                            <span>1 day ago</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        "Absolutely thrilled with the battery replacement for my Samsung Galaxy. It holds charge like new, and the service was incredibly fast. The staff was courteous and explained everything clearly. Highly recommend Mobile Doctor for reliable repairs!"
+                    </div>
+                    <div class="review-service">Battery Replacement - Samsung Galaxy</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">AJ</div>
+                            <div class="reviewer-details">
+                                <h4>Amit Jha</h4>
+                                <div class="review-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">☆</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-meta">
+                            <span class="verified-badge">✓ Verified</span>
+                            <span>3 days ago</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        "My phone had severe water damage, and I thought it was a lost cause. Mobile Doctor managed to revive it! They were transparent about the process and costs. A lifesaver for my precious data. Thank you!"
+                    </div>
+                    <div class="review-service">Water Damage Repair - OnePlus 7T</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">SK</div>
+                            <div class="reviewer-details">
+                                <h4>Sneha Kapoor</h4>
+                                <div class="review-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-meta">
+                            <span class="verified-badge">✓ Verified</span>
+                            <span>5 days ago</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        "Fast and efficient charging port repair for my Pixel. No more wiggling the cable! The service was quick, and the technician was very friendly. Definitely my go-to place for mobile repairs now."
+                    </div>
+                    <div class="review-service">Charging Port Repair - Google Pixel</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Why Choose Mobile Doctor?</h2>
+                    <p>At Mobile Doctor, we're committed to providing the highest quality mobile repair services in Hyderabad. Our experienced technicians use only genuine parts and the latest repair techniques.</p>
+                    <ul class="features">
+                        <li>Experienced and certified technicians</li>
+                        <li>Genuine replacement parts and components</li>
+                        <li>Fast turnaround times</li>
+                        <li>Competitive pricing</li>
+                        <li>Complete range of repair tools and consumables</li>
+                        <li>Professional service with warranty</li>
+                        <li>All smartphone brands supported</li>
+                    </ul>
+                </div>
+                <div class="about-visual">
+                    <span>🔧📱</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <span class="icon">📍</span>
+                        <div>
+                            <strong>Address:</strong><br>
+                            H No 5-1-140/4, Shop No 3, Annapurna Colony,<br>
+                            Mallapur, Hyderabad - 500076<br>
+                            (Opp May Flower Apartments)
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📞</span>
+                        <div>
+                            <strong>Phone:</strong><br>
+                            <a href="tel:+919059447244" style="color: #74b9ff;">+91 9059447244</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">✉️</span>
+                        <div>
+                            <strong>Email:</strong><br>
+                            <a href="mailto:Mobile.doctor73849099@gmail.com" style="color: #74b9ff;">Mobile.doctor73849099@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">🗺️</span>
+                        <div>
+                            <strong>Google Business:</strong><br>
+                            <a href="https://g.co/kgs/vpHbYGM" target="_blank" style="color: #74b9ff;">View on Google Maps</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    <!--
+                        This form submits data to a Google Form.
+                        IMPORTANT:
+                        - The 'action' attribute points to the Google Form's 'formResponse' URL.
+                        - The 'method' is 'POST'.
+                        - The 'target' attribute points to a hidden iframe ('googleFormIframe').
+                          This allows the form to submit without reloading the page.
+                        - Each input field's 'name' attribute MUST correspond to the
+                          'entry.XXXXXXXXXX' ID of the respective field in your Google Form.
+                          If these IDs do not match, the data will not be recorded in your Google Form.
+                          To find the correct 'entry.XXXXXXXXXX' IDs:
+                          1. Open your Google Form in a browser (the 'viewform' URL).
+                          2. Right-click on an input field and select 'Inspect' (or 'Inspect Element').
+                          3. Look for the 'name' attribute of the input element. It will be in the format 'entry. followed by a long number'.
+                          4. Ensure these match exactly with the 'name' attributes below.
+                    -->
+                    <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdXQAij6u0dOOcN8OPYwsbhlLNQZTmJOJiZAry8GOyo-JvmBg/formResponse" method="POST" target="googleFormIframe">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <!-- Ensure 'name' attribute matches the Google Form's entry ID for Name -->
+                            <input type="text" id="name" name="entry.2005620554" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <!-- Ensure 'name' attribute matches the Google Form's entry ID for Phone -->
+                            <input type="tel" id="phone" name="entry.1166974658" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <!-- Ensure 'name' attribute matches the Google Form's entry ID for Email -->
+                            <input type="email" id="email" name="entry.1045781291" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <!-- Ensure 'name' attribute matches the Google Form's entry ID for Message -->
+                            <textarea id="message" name="entry.839337160" placeholder="Describe your device issue or inquiry..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-links">
+        <div class="container">
+            <h3>Quick Actions</h3>
+            <div class="quick-links-grid">
+                <a href="https://api.whatsapp.com/send/?phone=9059447244&text&type=phone_number&app_absent=0" target="_blank" class="quick-link">💬 WhatsApp</a>
+                <a href="https://www.justdial.com/Hyderabad/Mobile-Doctor-Opp-May-Flower-Apartments-Mallapur/040PXX40-XX40-210304103555-T8I2_BZDET" target="_blank" class="quick-link">🔍 JustDial</a>
+                <a href="https://www.google.com/maps/@17.4432899,78.5674612,3a,17y,322.92h,71.6t/data=!3m7!1e1!3m5!1sl_xdxkBSgr-17mO_AUzw2w!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D18.400000000000006%26panoid%3Dl_xdxkBSgr-17mO_AUzw2w%26yaw%3D322.92!7i13312!8i6656!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MDYyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="quick-link">🗺️ Street View</a>
+                <a href="https://docs.google.com/forms/d/1Mj-9fnCmYFzyj5THA0LNhDbeYnCr_sIatpUDsyzgcyY/edit" target="_blank" class="quick-link">📋 Feedback Form</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="external-links-section">
+        <div class="container">
+            <p>For more details please visit:</p>
+            <div class="external-links-grid">
+                <a href="https://sites.google.com/view/tools-are-good/mobile-doctor" target="_blank" rel="noopener noreferrer" class="external-link-btn">
+                    Tools Are Good - Mobile Doctor
+                </a>
+                <a href="https://linktr.ee/MOBILE_DOCTOR.com" target="_blank" rel="noopener noreferrer" class="external-link-btn">
+                    MOBILE_DOCTOR.com Linktree
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="daily-quote-section" class="py-5" style="background: #e9ecef;">
+        <div class="container">
+            <h2 class="section-title text-center mb-4" style="color: #2c3e50;">Quote of the Day</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <blockquote class="blockquote mb-0">
+                                <p id="quote-text" class="mb-3" style="font-size: 1.2rem; color: #34495e; font-style: italic;">Loading today's wisdom...</p>
+                                <footer class="blockquote-footer text-end" style="color: #6c757d;">
+                                    <cite id="quote-author" title="Source Title">The Universe</cite>
+                                </footer>
+                            </blockquote>
+                            <div class="text-center mt-3">
+                                <small class="text-muted" id="quote-update-info">Updated: Just now</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Mobile Doctor</h3>
+                    <p>Professional mobile repair services in Hyderabad. We fix all types of smartphones with genuine parts and expert care.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <a href="/iphone-screen-replacement/">Display Repair</a>
+                    <a href="/Battery Replacement/">Battery Replacement</a>
+                    <a href="/water-damage-repair/">Water Damage Restoration</a>
+                    <a href="/mobile-repair-hyderabad/">Full Mobile Repair</a>
+                    <a href="/mallapur-service-center/">Mallapur Service</a>
+ 		            <a href="/charging-port-repair/">Charging Port Repaire</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="tel:+919059447244">Call Now</a>
+                    <a href="https://api.whatsapp.com/send/?phone=9059447244&text&type=phone_number&app_absent=0" target="_blank">WhatsApp</a>
+                    <a href="mailto:Mobile.doctor73849099@gmail.com">Email Us</a>
+                    <a href="https://g.co/kgs/vpHbYGM" target="_blank">Google Maps</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Location</h3>
+                    <p>H No 5-1-140/4, Shop No 3<br>
+                    Annapurna Colony, Mallapur<br>
+                    Hyderabad - 500076<br>
+                    (Opp May Flower Apartments)</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Mobile Doctor. All rights reserved. | Professional Mobile Repair Services in Hyderabad</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://api.whatsapp.com/send/?phone=9059447244&text&type=phone_number&app_absent=0" target="_blank" class="fab" title="Chat on WhatsApp">
+        💬
+    </a>
+
+    <!--
+        This hidden iframe is crucial for the Google Form submission.
+        The 'target="googleFormIframe"' attribute on the form tells it to
+        submit data to this iframe, preventing a full page reload.
+        This allows for a smoother user experience and custom success/error messages.
+    -->
+    <iframe name="googleFormIframe" id="googleFormIframe" style="display:none;"></iframe>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Processing your request...</p>
+    </div>
+
+    <button id="backToTopBtn" style="
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background: #2c3e50;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s;
+        z-index: 999;
+    ">↑</button>
+
+    <script>
+        // Preloader Initialization
+        function addPreloader() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #2c3e50, #3498db);
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                    color: white;
+                `;
+                
+                // Remove preloader after page load
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        preloader.style.opacity = '0';
+                        setTimeout(() => {
+                            preloader.remove();
+                        }, 500); // Allow fade out transition
+                    }, 1000); // Display preloader for 1 second
+                });
+            }
+        }
+        
+        // Initialize preloader on DOMContentLoaded or immediately if already loaded
+        if (document.readyState === 'loading') {
+            addPreloader();
+        } else {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.remove();
+                }, 500);
+            }
+        }
+
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Adjust scroll position to account for fixed header
+                    const headerOffset = document.querySelector('header').offsetHeight;
+                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset;
+
+                    window.scrollTo({
+                        behavior: 'smooth',
+                        top: offsetPosition
+                    });
+                }
+
+                // Close mobile menu after clicking a link
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Custom message box function (replaces alert/confirm)
+        function showMessageBox(message, type = 'info') {
+            const existingMessageBox = document.getElementById('customMessageBox');
+            if (existingMessageBox) {
+                existingMessageBox.remove(); // Remove any existing message box
+            }
+
+            const messageBox = document.createElement('div');
+            messageBox.id = 'customMessageBox';
+            let bgColor = '#3498db'; // Default info
+            let icon = 'ℹ️';
+
+            if (type === 'success') {
+                bgColor = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                icon = '✅';
+            } else if (type === 'error') {
+                bgColor = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                icon = '❌';
+            }
+
+            messageBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: ${bgColor};
+                color: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                text-align: center;
+                max-width: 400px;
+                opacity: 0;
+                animation: fadeIn 0.3s forwards;
+            `;
+            messageBox.innerHTML = `
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">${icon}</div>
+                <h3>${message}</h3>
+                <button onclick="this.parentElement.remove()" style="
+                    margin-top: 1.5rem;
+                    padding: 0.7rem 1.5rem;
+                    background: white;
+                    color: ${type === 'success' ? '#27ae60' : (type === 'error' ? '#e74c3c' : '#3498db')};
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                    transition: all 0.2s ease;
+                ">Close</button>
+            `;
+            document.body.appendChild(messageBox);
+
+            // Auto remove after 5 seconds for success/info messages
+            if (type !== 'error') { // Keep error messages until user closes
+                setTimeout(() => {
+                    if (messageBox.parentElement) {
+                        messageBox.style.animation = 'fadeOut 0.3s forwards';
+                        messageBox.addEventListener('animationend', () => messageBox.remove(), { once: true });
+                    }
+                }, 5000);
+            }
+        }
+
+        // Form submission for Google Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission to handle it asynchronously
+            
+            if (!validateForm(this)) {
+                showMessageBox('Please fill in all required fields correctly.', 'error');
+                return; // Stop if validation fails
+            }
+            
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block'; // Show loading spinner
+            
+            // Submit the form to the hidden iframe
+            this.submit();
+
+            // Listen for the iframe to load (indicating Google Form submission completion)
+            const iframe = document.getElementById('googleFormIframe');
+            iframe.onload = function() {
+                loading.style.display = 'none'; // Hide loading spinner
+                showMessageBox('Thank you for your message! We will contact you soon.', 'success'); // Show success message
+                document.getElementById('contactForm').reset(); // Clear the form fields
+                iframe.onload = null; // Remove the event listener to prevent multiple calls on subsequent submissions
+            };
+
+            // Fallback for very slow connections or if iframe onload doesn't fire
+            setTimeout(() => {
+                if (loading.style.display === 'block') { // If loading is still visible
+                    loading.style.display = 'none';
+                    showMessageBox('Your message has been sent. We will contact you soon.', 'success');
+                    document.getElementById('contactForm').reset();
+                }
+            }, 5000); // Allow up to 5 seconds for Google Form to process
+        });
+
+        // Animate service cards on scroll using Intersection Observer
+        const serviceCardObserverOptions = {
+            threshold: 0.1, // Trigger when 10% of the item is visible
+            rootMargin: '0px 0px -50px 0px' // Adjust the viewport bottom margin
+        };
+
+        const serviceCardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, serviceCardObserverOptions);
+
+        // Observe service cards on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.service-card').forEach(card => {
+                serviceCardObserver.observe(card);
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(44, 62, 80, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #2c3e50, #3498db)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Add click effects (Ripple effect) to buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                let ripple = document.createElement('span');
+                let rect = this.getBoundingClientRect();
+                let size = Math.max(rect.width, rect.height);
+                let x = e.clientX - rect.left - size / 2;
+                let y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255,255,255,0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.pointerEvents = 'none'; // Ensure ripple doesn't block clicks
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600); // Remove ripple after animation
+            });
+        });
+
+        // Add floating animation to hero elements
+        function addFloatingAnimation() {
+            const heroElements = document.querySelectorAll('.hero h1, .hero p');
+            heroElements.forEach((element, index) => {
+                element.style.animation = `float 3s ease-in-out ${index * 0.5}s infinite alternate`;
+            });
+        }
+        
+        // Initialize floating animation after page load
+        window.addEventListener('load', addFloatingAnimation);
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.5;
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Add typing effect to hero title
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = ''; // Clear existing text
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect for hero title
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroTitle = document.querySelector('.hero h1');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                // Delay typing effect slightly after preloader
+                setTimeout(() => {
+                    typeWriter(heroTitle, originalText, 150);
+                }, 1500); 
+            }
+        });
+
+        // Add interactive contact items hover effects
+        document.querySelectorAll('.contact-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(15px) scale(1.02)';
+                this.style.background = 'rgba(116, 185, 255, 0.2)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0px) scale(1)'; // Reset to original position
+                this.style.background = 'rgba(255,255,255,0.1)';
+            });
+        });
+
+        // Add scroll indicator
+        function addScrollIndicator() {
+            const indicator = document.getElementById('scroll-indicator');
+            if (indicator) {
+                window.addEventListener('scroll', () => {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (winScroll / height) * 100;
+                    indicator.style.width = scrolled + '%';
+                });
+            }
+        }
+        
+        // Initialize scroll indicator
+        document.addEventListener('DOMContentLoaded', addScrollIndicator);
+
+        // Add click to call tracking (console log example)
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', () => {
+                console.log('Call initiated to:', link.href);
+                // You can integrate analytics tracking here (e.g., Google Analytics event)
+            });
+        });
+
+        // Add form validation with better UX (shake animation for invalid fields)
+        function validateForm(form) {
+            const inputs = form.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                const value = input.value.trim();
+                
+                // Reset previous error styling
+                input.style.border = '';
+                input.style.animation = ''; // Remove shake animation
+                
+                if (!value) {
+                    input.style.border = '2px solid #e74c3c'; // Red border for empty
+                    input.style.animation = 'shake 0.5s ease-in-out'; // Shake animation
+                    isValid = false;
+                } else if (input.type === 'email' && value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        input.style.border = '2px solid #e74c3c'; // Red border for invalid email
+                        input.style.animation = 'shake 0.5s ease-in-out';
+                        isValid = false;
+                    }
+                } else if (input.type === 'tel' && value) {
+                    // Basic phone number validation (at least 10 digits, optional + at start)
+                    const phoneRegex = /^[+]?[\d\s\-\(\)]{10,}$/;
+                    if (!phoneRegex.test(value)) {
+                        input.style.border = '2px solid #e74c3c'; // Red border for invalid phone
+                        input.style.animation = 'shake 0.5s ease-in-out';
+                        isValid = false;
+                    }
+                }
+                
+                // Add green border for valid fields (only if not already invalid)
+                if (isValid && value && input.style.border === '') {
+                    input.style.border = '2px solid #27ae60';
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Add back to top button functionality
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.style.opacity = '1';
+                    backToTopBtn.style.transform = 'scale(1)';
+                } else {
+                    backToTopBtn.style.opacity = '0';
+                    backToTopBtn.style.transform = 'scale(0.8)';
+                }
+            });
+        }
+
+        // Function to update the "Last Updated" timestamp for reviews
+        function updateLastUpdatedTimestamp() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const formattedTime = now.toLocaleDateString('en-US', options);
+            const lastUpdatedElement = document.getElementById('last-updated-time');
+            if (lastUpdatedElement) {
+                lastUpdatedElement.textContent = `Last Updated: ${formattedTime}`;
+            }
+        }
+
+        // Call the update function initially and then every 10 seconds
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLastUpdatedTimestamp();
+            setInterval(updateLastUpdatedTimestamp, 10000); // Update every 10 seconds
+        });
+
+    </script>
+    <script>
+    // NEW: Daily Quote Logic
+    const quotes = [
+        { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+        { quote: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+        { quote: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
+        { quote: "The mind is everything. What you think you become.", author: "Buddha" },
+        { quote: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+        { quote: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+        { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston S. Churchill" },
+        { quote: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+        { quote: "The only impossible journey is the one you never begin.", author: "Tony Robbins" },
+        // IMPORTANT: Add 90+ more unique quotes here to reach over 100 quotes
+        // Example:
+        { quote: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
+        { quote: "Do not go where the path may lead, go instead where there is no path and leave a trail.", author: "Ralph Waldo Emerson" },
+        { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { quote: "The journey of a thousand miles begins with a single step.", author: "Lao Tzu" },
+        { quote: "That which does not kill us makes us stronger.", author: "Friedrich Nietzsche" },
+        { quote: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
+        { quote: "The unexamined life is not worth living.", author: "Socrates" },
+        { quote: "Eighty percent of success is showing up.", author: "Woody Allen" },
+        { quote: "The only thing necessary for the triumph of evil is for good men to do nothing.", author: "Edmund Burke" },
+        { quote: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author: "Ralph Waldo Emerson" },
+        { quote: "The future belongs to those who prepare for it today.", author: "Malcolm X" },
+        { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+        { quote: "The best revenge is massive success.", author: "Frank Sinatra" },
+        { quote: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+        { quote: "Get busy living or get busy dying.", author: "Stephen King" },
+        { quote: "The grass is greener where you water it.", author: "Neil Barringham" },
+        { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+        { quote: "The greater the difficulty, the more glory in surmounting it.", author: "Molière" },
+        { quote: "The only source of knowledge is experience.", author: "Albert Einstein" },
+        { quote: "Imagination is more important than knowledge.", author: "Albert Einstein" },
+        { quote: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
+        { quote: "If you want to live a happy life, tie it to a goal, not to people or things.", author: "Albert Einstein" },
+        { quote: "The only thing we have to fear is fear itself.", author: "Franklin D. Roosevelt" },
+        { quote: "Do one thing every day that scares you.", author: "Eleanor Roosevelt" },
+        { quote: "What you get by achieving your goals is not as important as what you become by achieving your goals.", author: "Zig Ziglar" },
+        { quote: "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.", author: "Christian D. Larson" },
+        { quote: "The mind is everything. What you think you become.", author: "Buddha" },
+        { quote: "Everything you've ever wanted is on the other side of fear.", author: "George Addair" },
+        { quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
+        { quote: "A successful man is one who can lay a firm foundation with the bricks others have thrown at him.", author: "David Brinkley" },
+        { quote: "No one can make you feel inferior without your consent.", author: "Eleanor Roosevelt" },
+        { quote: "The best way to appreciate your job is to imagine yourself without one.", author: "Oscar Wilde" },
+        { quote: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+        { quote: "Setting goals is the first step in turning the invisible into the visible.", author: "Tony Robbins" },
+        { quote: "Happiness is not something ready made. It comes from your own actions.", author: "Dalai Lama XIV" },
+        { quote: "The greatest glory in living lies not in never falling, but in rising every time we fall.", author: "Nelson Mandela" },
+        { quote: "The key to success is to focus on goals, not obstacles.", author: "Unknown" },
+        { quote: "If you genuinely want something, don't wait for it. Teach yourself to be impatient.", author: "Gurbaksh Chahal" },
+        { quote: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon" },
+        { quote: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+        { quote: "Keep your eyes on the stars, and your feet on the ground.", author: "Theodore Roosevelt" },
+        { quote: "The bad news is time flies. The good news is you're the pilot.", author: "Michael Altshuler" },
+        { quote: "Life is 10% what happens to you and 90% how you react to it.", author: "Charles R. Swindoll" },
+        { quote: "Change your thoughts and you change your world.", author: "Norman Vincent Peale" },
+        { quote: "The only way to achieve the impossible is to believe it is possible.", author: "Charles Kingsleigh (Alice in Wonderland)" },
+        { quote: "What we achieve inwardly will change outer reality.", author: "Plutarch" },
+        { quote: "If opportunity doesn't knock, build a door.", author: "Milton Berle" },
+        { quote: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+        { quote: "The difference between ordinary and extraordinary is that little extra.", author: "Jimmy Johnson" },
+        { quote: "I find that the harder I work, the more luck I seem to have.", author: "Thomas Jefferson" },
+        { quote: "Don't be afraid to give up the good to go for the great.", author: "John D. Rockefeller" },
+        { quote: "I have not failed. I've just found 10,000 ways that won't work.", author: "Thomas A. Edison" },
+        { quote: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+        { quote: "Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence.", author: "Helen Keller" },
+        { quote: "With the new day comes new strength and new thoughts.", author: "Eleanor Roosevelt" },
+        { quote: "It is better to fail in originality than to succeed in imitation.", author: "Herman Melville" },
+        { quote: "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", author: "Winston Churchill" },
+        { quote: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+        { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { quote: "Don't let yesterday take up too much of today.", author: "Will Rogers" },
+        { quote: "We may encounter many defeats but we must not be defeated.", author: "Maya Angelou" },
+        { quote: "Knowing is not enough; we must apply. Willing is not enough; we must do.", author: "Johann Wolfgang von Goethe" },
+        { quote: "If you want to achieve greatness stop asking for permission.", author: "Anonymous" },
+        { quote: "The true entrepreneur is a doer, not a dreamer.", author: "Nolan Bushnell" },
+        { quote: "Success is liking yourself, liking what you do, and liking how you do it.", author: "Maya Angelou" },
+        { quote: "The only place success comes before work is in the dictionary.", author: "Vidal Sassoon" },
+        { quote: "The function of leadership is to produce more leaders, not more followers.", author: "Ralph Nader" },
+        { quote: "If you are not willing to risk the usual, you will have to settle for the ordinary.", author: "Jim Rohn" },
+        { quote: "Try not to become a man of success, but rather try to become a man of value.", author: "Albert Einstein" },
+        { quote: "Great minds discuss ideas; average minds discuss events; small minds discuss people.", author: "Eleanor Roosevelt" },
+        { quote: "The most difficult thing is the decision to act, the rest is merely tenacity.", author: "Amelia Earhart" },
+        { quote: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+        { quote: "Perfection is not attainable, but if we chase perfection we can catch excellence.", author: "Vince Lombardi" },
+        { quote: "A truly rich man is one whose children run into his arms when his hands are empty.", author: "Unknown" },
+        { quote: "It is our choices, Harry, that show what we truly are, far more than our abilities.", author: "J.K. Rowling" },
+        { quote: "The whole secret of a successful life is to find out what is one's destiny to do, and then do it.", author: "Henry Ford" },
+        { quote: "If you're going through hell, keep going.", author: "Winston Churchill" },
+        { quote: "The greatest wealth is health.", author: "Virgil" },
+        { quote: "To handle yourself, use your head; to handle others, use your heart.", author: "Eleanor Roosevelt" },
+        { quote: "You are the master of your destiny. You can influence, direct and control your own environment. You can make your life what you want it to be.", author: "Napoleon Hill" },
+        { quote: "The purpose of our lives is to be happy.", author: "Dalai Lama" },
+        { quote: "Never let the fear of striking out keep you from playing the game.", author: "Babe Ruth" },
+        { quote: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+        { quote: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
+        { quote: "Two roads diverged in a wood, and I—I took the one less traveled by, And that has made all the difference.", author: "Robert Frost" },
+        { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { quote: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+        { quote: "If you want to lift yourself up, lift up someone else.", author: "Booker T. Washington" },
+        { quote: "I am not a product of my circumstances. I am a product of my decisions.", author: "Stephen Covey" },
+        { quote: "When you cease to dream, you cease to live.", author: "Malcolm Forbes" },
+        { quote: "The mind is everything. What you think you become.", author: "Buddha" },
+        { quote: "The most common way people give up their power is by thinking they don't have any.", author: "Alice Walker" },
+        { quote: "The unexamined life is not worth living.", author: "Socrates" },
+        { quote: "You can never cross the ocean until you have the courage to lose sight of the shore.", author: "Christopher Columbus" },
+        { quote: "Limitations live only in our minds. But if we use our imaginations, our possibilities become limitless.", author: "Jamie Paolinetti" },
+        { quote: "The best way out is always through.", author: "Robert Frost" },
+        { quote: "It is not the mountain we conquer, but ourselves.", author: "Sir Edmund Hillary" },
+        { quote: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
+        { quote: "Either you run the day, or the day runs you.", author: "Jim Rohn" },
+        { quote: "The greatest discovery of all time is that a person can change his future by merely changing his attitude.", author: "Oprah Winfrey" },
+        { quote: "The journey of a thousand miles begins with a single step.", author: "Lao Tzu" }
+    ];
+
+    function displayDailyQuote() {
+        const quoteTextElement = document.getElementById('quote-text');
+        const quoteAuthorElement = document.getElementById('quote-author');
+        const quoteUpdateInfoElement = document.getElementById('quote-update-info');
+
+        // Check if elements exist to prevent errors if script runs before DOM is fully loaded
+        if (!quoteTextElement || !quoteAuthorElement || !quoteUpdateInfoElement) {
+            console.error("Quote display elements not found in the DOM.");
+            return;
+        }
+
+        const lastQuoteIndex = parseInt(localStorage.getItem('lastQuoteIndex')) || 0;
+        const lastUpdateTimestamp = parseInt(localStorage.getItem('lastQuoteUpdateTimestamp')) || 0;
+        const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        const currentTime = new Date().getTime();
+
+        let currentQuote = {};
+        let newIndex;
+
+        // Check if 24 hours have passed or if it's the first visit
+        if (currentTime - lastUpdateTimestamp > twentyFourHours || lastUpdateTimestamp === 0) {
+            // It's time for a new quote
+            do {
+                newIndex = Math.floor(Math.random() * quotes.length);
+            } while (newIndex === lastQuoteIndex && quotes.length > 1); // Ensure different quote if more than one exists
+
+            currentQuote = quotes[newIndex];
+            localStorage.setItem('lastQuoteIndex', newIndex);
+            localStorage.setItem('lastQuoteUpdateTimestamp', currentTime);
+        } else {
+            // Less than 24 hours, display the last stored quote
+            currentQuote = quotes[lastQuoteIndex];
+        }
+
+        // Update the HTML elements with the chosen quote
+        quoteTextElement.textContent = currentQuote.quote;
+        quoteAuthorElement.textContent = currentQuote.author;
+
+        // Display the last updated time (for user reference)
+        const displayTimestamp = lastUpdateTimestamp === 0 ? currentTime : lastUpdateTimestamp;
+        const lastUpdatedDate = new Date(displayTimestamp);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        quoteUpdateInfoElement.textContent = `Updated: ${lastUpdatedDate.toLocaleDateString('en-US', options)}`;
+    }
+
+    // Call the function when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', displayDailyQuote);
+</script>
+</body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Play Latest Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.5s ease;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+
+        .game-card:hover::before {
+            animation: shimmer 0.8s ease-in-out;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .game-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .game-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .game-description {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+
+        .game-area {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .game-area.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Typing Game Styles */
+        .typing-area {
+            max-width: 900px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .typing-instructions {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .typing-instructions ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .difficulty-selection {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .difficulty-selection label {
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .difficulty-selection input[type="radio"]:checked + label {
+            background: linear-gradient(45deg, #48dbfb, #20bf6b);
+            border-color: #48dbfb;
+            box-shadow: 0 0 15px rgba(72, 219, 251, 0.4);
+        }
+        .difficulty-selection input[type="radio"] {
+            display: none;
+        }
+
+        .typing-text {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            min-height: 150px;
+            text-align: left; /* Align text left */
+        }
+
+        .typing-text .char {
+            position: relative;
+            font-family: 'Courier New', monospace;
+            white-space: pre; /* Preserve spaces */
+        }
+
+        .typing-text .char.correct {
+            color: #48dbfb; /* Blue for correct */
+        }
+
+        .typing-text .char.incorrect {
+            color: #ff6b6b; /* Red for incorrect */
+            text-decoration: underline wavy #ff6b6b;
+        }
+
+        .typing-text .char.current {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            animation: blink 1s infinite;
+            border-bottom: 2px solid #333; /* Cursor-like effect */
+        }
+
+        .typing-text .char.current-word {
+            background: rgba(255, 255, 255, 0.05); /* Highlight for current word */
+            border-radius: 3px;
+        }
+
+        @keyframes blink {
+            0%, 50% { background: rgba(255, 255, 255, 0.8); }
+            51%, 100% { background: transparent; }
+        }
+
+        .typing-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+        }
+
+        .typing-input:focus {
+            border-color: #48dbfb;
+            box-shadow: 0 0 10px rgba(72, 219, 251, 0.3);
+        }
+
+        .typing-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #48dbfb;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Flappy Bird Styles */
+        #flappyCanvas {
+            border: 2px solid #fff;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 100%);
+            border-radius: 10px;
+            display: block;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .game-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score {
+            font-size: 1.5em;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        /* Memory Game Styles */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .memory-card:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .memory-card.flipped {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: rgba(72, 219, 251, 0.4);
+            pointer-events: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 GameHub</h1>
+            <p class="subtitle">Play the Latest Games - All Client-Side!</p>
+        </header>
+
+        <div id="gameSelection" class="games-grid">
+            <div class="game-card" onclick="startGame('typing')">
+                <div class="game-icon">⌨️</div>
+                <h3 class="game-title">Speed Typing</h3>
+                <p class="game-description">Test your typing speed! Type the words as fast as you can and improve your WPM.</p>
+                <button class="play-btn">Play Now</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('memory')">
+                <div class="game-icon">🧠</div>
+                <h3 class="game-title">Memory Match</h3>
+                <p class="game-description">Test your memory! Flip cards and match pairs in this brain-training game.</p>
+                <button class="play-btn">Play Now</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('flappy')">
+                <div class="game-icon">🐦</div>
+                <h3 class="game-title">Flappy Bird</h3>
+                <p class="game-description">Navigate through pipes! Tap to fly and avoid obstacles in this addictive game.</p>
+                <button class="play-btn">Play Now</button>
+            </div>
+        </div>
+
+        <div id="typingGame" class="game-area">
+            <button class="back-btn" onclick="backToMenu()">← Back to Games</button>
+            <h2 style="text-align: center; margin-bottom: 20px;">⌨️ Speed Typing Challenge</h2>
+            
+            <div class="typing-instructions">
+                <h3>How to Play:</h3>
+                <ul>
+                    <li>Select your desired difficulty level below.</li>
+                    <li>Click "Start Test" to begin.</li>
+                    <li>Type the displayed text as accurately and quickly as possible.</li>
+                    <li>Your WPM, accuracy, and remaining time will update in real-time.</li>
+                    <li>The test ends when time runs out or you complete all texts.</li>
+                </ul>
+            </div>
+
+            <div class="difficulty-selection">
+                <input type="radio" id="easy" name="difficulty" value="easy" checked>
+                <label for="easy">Easy</label>
+                <input type="radio" id="medium" name="difficulty" value="medium">
+                <label for="medium">Medium</label>
+                <input type="radio" id="hard" name="difficulty" value="hard">
+                <label for="hard">Hard</label>
+            </div>
+
+            <div class="typing-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="typingWPM">0</div>
+                    <div class="stat-label">WPM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="typingAccuracy">100</div>
+                    <div class="stat-label">Accuracy %</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="typingTime">60</div>
+                    <div class="stat-label">Time Left</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="typingErrors">0</div>
+                    <div class="stat-label">Errors</div>
+                </div>
+            </div>
+
+            <div class="typing-area">
+                <div id="typingText" class="typing-text">
+                    Select a difficulty and click "Start Test" to begin!
+                </div>
+                <input type="text" id="typingInput" class="typing-input" placeholder="Type here..." disabled autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <div class="game-controls">
+                    <button class="play-btn" onclick="startTypingTest()">Start Test</button>
+                    <button class="play-btn" onclick="resetTypingTest()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="flappyGame" class="game-area">
+            <button class="back-btn" onclick="backToMenu()">← Back to Games</button>
+            <h2 style="text-align: center; margin-bottom: 20px;">🐦 Flappy Bird</h2>
+            <div class="score">Score: <span id="flappyScore">0</span> | Best: <span id="flappyBest">0</span></div>
+            <canvas id="flappyCanvas" width="400" height="600"></canvas>
+            <div class="game-controls">
+                <p>Click or Press Space to Fly</p>
+                <button class="play-btn" onclick="startFlappyGame()">Start Game</button>
+            </div>
+        </div>
+
+        <div id="memoryGame" class="game-area">
+            <button class="back-btn" onclick="backToMenu()">← Back to Games</button>
+            <h2 style="text-align: center; margin-bottom: 20px;">🧠 Memory Match</h2>
+            <div class="score">Moves: <span id="memoryMoves">0</span> | Matches: <span id="memoryMatches">0</span>/8</div>
+            <div id="memoryGrid" class="memory-grid"></div>
+            <div class="game-controls">
+                <button class="play-btn" onclick="restartMemory()">New Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentGame = null;
+
+        function startGame(gameType) {
+            document.getElementById('gameSelection').style.display = 'none';
+            document.querySelectorAll('.game-area').forEach(area => {
+                area.classList.remove('active');
+            });
+            document.getElementById(gameType + 'Game').classList.add('active');
+            currentGame = gameType;
+            
+            if (gameType === 'typing') {
+                initTyping();
+            } else if (gameType === 'memory') {
+                initMemory();
+            } else if (gameType === 'flappy') {
+                initFlappy();
+            }
+        }
+
+        function backToMenu() {
+            document.getElementById('gameSelection').style.display = 'grid';
+            document.querySelectorAll('.game-area').forEach(area => {
+                area.classList.remove('active');
+            });
+            currentGame = null;
+
+            // Stop any active game timers/loops when returning to menu
+            if (typing.timer) clearInterval(typing.timer);
+            if (flappy.gameRunning) flappy.gameRunning = false;
+        }
+
+        // Typing Game Logic
+        let typing = {
+            texts: {
+                easy: [
+                    "The quick brown fox jumps over the lazy dog.",
+                    "Hello world, how are you today?",
+                    "Coding is fun and challenging.",
+                    "Practice makes perfect in typing.",
+                    "The sun shines brightly every day.",
+                    "Birds sing sweet songs in the morning.",
+                    "Books open doors to new adventures.",
+                    "Friends are always there for you.",
+                    "Enjoy every moment of your life.",
+                    "Learning new things is exciting."
+                ],
+                medium: [
+                    "Programming is the art of telling another human being what one wants the computer to do.",
+                    "Life is what happens to you while you're busy making other plans and dreams for the future.",
+                    "Success is not final, failure is not fatal: it is the courage to continue that counts in all situations.",
+                    "The only way to do great work is to love what you do and never give up on your aspirations.",
+                    "Innovation distinguishes between a leader and a follower in every field of work and industry.",
+                    "Technology is best when it brings people together and makes daily life easier for everyone involved.",
+                    "The future belongs to those who believe in the beauty of their dreams and work tirelessly to achieve them.",
+                    "Education is the most powerful weapon which you can use to change the world and improve lives significantly.",
+                    "Believe you can and you're halfway there to achieving your wildest dreams and ambitious goals.",
+                    "The journey of a thousand miles begins with a single step towards your desired destination."
+                ],
+                hard: [
+                    "The enigmatic Sphinx, a mythical creature with the head of a human and the body of a lion, guards ancient secrets in the desert.",
+                    "Quantum entanglement, a phenomenon in quantum mechanics, allows two particles to be linked in such a way that they share the same existence.",
+                    "The burgeoning field of artificial intelligence promises to revolutionize industries ranging from healthcare to autonomous transportation systems.",
+                    "Interdisciplinary collaboration among scientists, engineers, and artists often leads to groundbreaking innovations and unconventional solutions.",
+                    "Decentralized autonomous organizations (DAOs) represent a novel form of governance and organizational structure facilitated by blockchain technology.",
+                    "The intricate tapestry of global economic interdependence highlights the interconnectedness of nations and the ripple effects of local events.",
+                    "Epistemology, the branch of philosophy concerned with the theory of knowledge, explores the nature, origin, and scope of human understanding.",
+                    "The relentless pursuit of renewable energy sources is crucial for mitigating climate change and ensuring a sustainable future for generations.",
+                    "Neuroplasticity, the brain's remarkable ability to reorganize itself by forming new neural connections, is fundamental to learning and memory.",
+                    "Philosophical inquiry often grapples with existential questions concerning the meaning of life, consciousness, and the nature of reality itself."
+                ]
+            },
+            currentText: "",
+            rawText: "", // The original text without spans
+            currentInput: "",
+            currentIndex: 0,
+            startTime: null,
+            timeLeft: 0,
+            timer: null,
+            isActive: false,
+            correctChars: 0,
+            incorrectChars: 0,
+            totalCharsTyped: 0,
+            wpm: 0,
+            accuracy: 100,
+            errors: 0,
+            difficulty: 'easy' // Default difficulty
+        };
+
+        function getTypingTextsByDifficulty(difficulty) {
+            return typing.texts[difficulty] || typing.texts.easy;
+        }
+
+        function initTyping() {
+            // Get selected difficulty
+            const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+            typing.difficulty = selectedDifficulty;
+
+            const textsForDifficulty = getTypingTextsByDifficulty(typing.difficulty);
+            typing.rawText = textsForDifficulty[Math.floor(Math.random() * textsForDifficulty.length)];
+            typing.currentInput = "";
+            typing.currentIndex = 0;
+            typing.startTime = null;
+            
+            // Set time limit based on difficulty
+            if (typing.difficulty === 'easy') {
+                typing.timeLeft = 60;
+            } else if (typing.difficulty === 'medium') {
+                typing.timeLeft = 90;
+            } else { // Hard
+                typing.timeLeft = 120;
+            }
+            
+            typing.isActive = false;
+            typing.correctChars = 0;
+            typing.incorrectChars = 0;
+            typing.totalCharsTyped = 0;
+            typing.wpm = 0;
+            typing.accuracy = 100;
+            typing.errors = 0;
+            
+            document.getElementById('typingInput').disabled = true;
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingInput').classList.remove('typing-correct', 'typing-incorrect');
+
+            if (typing.timer) {
+                clearInterval(typing.timer);
+            }
+
+            displayTypingText();
+            updateTypingStats();
+
+            // Enable difficulty selection
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.disabled = false);
+        }
+
+        function displayTypingText() {
+            const textDiv = document.getElementById('typingText');
+            textDiv.innerHTML = '';
+            
+            const words = typing.rawText.split(' ');
+            let currentOffset = 0;
+            let inputWordIndex = typing.currentInput.split(' ').length - 1;
+
+            words.forEach((word, wordIndex) => {
+                const wordSpan = document.createElement('span');
+                
+                if (wordIndex === inputWordIndex && typing.isActive) {
+                    wordSpan.classList.add('current-word');
+                }
+
+                for (let i = 0; i < word.length; i++) {
+                    const charSpan = document.createElement('span');
+                    charSpan.textContent = word[i];
+                    charSpan.className = 'char';
+
+                    const absoluteIndex = currentOffset + i;
+
+                    if (absoluteIndex < typing.currentIndex) {
+                        if (typing.rawText[absoluteIndex] === typing.currentInput[absoluteIndex]) {
+                            charSpan.classList.add('correct');
+                        } else {
+                            charSpan.classList.add('incorrect');
+                        }
+                    } else if (absoluteIndex === typing.currentIndex) {
+                        charSpan.classList.add('current');
+                    }
+                    wordSpan.appendChild(charSpan);
+                }
+
+                textDiv.appendChild(wordSpan);
+
+                // Add space after word, but not for the last word
+                if (wordIndex < words.length - 1) {
+                    const spaceSpan = document.createElement('span');
+                    spaceSpan.textContent = ' ';
+                    spaceSpan.className = 'char';
+                    const absoluteIndex = currentOffset + word.length; // Index of the space
+
+                    if (absoluteIndex < typing.currentIndex) {
+                        if (typing.rawText[absoluteIndex] === typing.currentInput[absoluteIndex]) {
+                            spaceSpan.classList.add('correct');
+                        } else {
+                            spaceSpan.classList.add('incorrect');
+                        }
+                    } else if (absoluteIndex === typing.currentIndex) {
+                        spaceSpan.classList.add('current');
+                    }
+                    textDiv.appendChild(spaceSpan);
+                    currentOffset += word.length + 1; // +1 for the space
+                } else {
+                    currentOffset += word.length;
+                }
+            });
+        }
+
+        function startTypingTest() {
+            if (typing.isActive) return; // Prevent multiple starts
+            
+            typing.isActive = true;
+            typing.startTime = Date.now();
+            document.getElementById('typingInput').disabled = false;
+            document.getElementById('typingInput').focus();
+
+            // Disable difficulty selection once test starts
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.disabled = true);
+            
+            typing.timer = setInterval(() => {
+                typing.timeLeft--;
+                updateTypingStats();
+                
+                if (typing.timeLeft <= 0) {
+                    endTypingTest();
+                }
+            }, 1000);
+        }
+
+        function endTypingTest() {
+            typing.isActive = false;
+            clearInterval(typing.timer);
+            document.getElementById('typingInput').disabled = true;
+            
+            const finalWPM = Math.round((typing.correctChars / 5) / ((Date.now() - typing.startTime) / 1000 / 60));
+            const finalAccuracy = typing.totalCharsTyped > 0 ? Math.round((typing.correctChars / typing.totalCharsTyped) * 100) : 100;
+            
+            alert(`Test Complete!\nDifficulty: ${typing.difficulty.toUpperCase()}\nWPM: ${finalWPM}\nAccuracy: ${finalAccuracy}%\nErrors: ${typing.errors}`);
+            
+            // Re-enable difficulty selection after test ends
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => radio.disabled = false);
+        }
+
+        function resetTypingTest() {
+            if (typing.timer) {
+                clearInterval(typing.timer);
+            }
+            initTyping();
+        }
+
+        function updateTypingStats() {
+            const elapsed = typing.startTime && typing.isActive ? (Date.now() - typing.startTime) / 1000 : 0;
+            
+            // Calculate WPM based on characters typed and time elapsed
+            typing.wpm = elapsed > 0 ? Math.round((typing.correctChars / 5) / (elapsed / 60)) : 0;
+            typing.accuracy = typing.totalCharsTyped > 0 ? Math.round((typing.correctChars / typing.totalCharsTyped) * 100) : 100;
+            
+            document.getElementById('typingWPM').textContent = typing.wpm;
+            document.getElementById('typingAccuracy').textContent = typing.accuracy;
+            document.getElementById('typingTime').textContent = typing.timeLeft;
+            document.getElementById('typingErrors').textContent = typing.errors;
+        }
+
+        document.getElementById('typingInput').addEventListener('input', (e) => {
+            if (!typing.isActive) return;
+            
+            typing.currentInput = e.target.value;
+            typing.totalCharsTyped = typing.currentInput.length;
+            
+            let currentCorrectChars = 0;
+            let currentErrors = 0;
+
+            for (let i = 0; i < typing.currentInput.length; i++) {
+                if (i < typing.rawText.length && typing.currentInput[i] === typing.rawText[i]) {
+                    currentCorrectChars++;
+                } else if (i < typing.rawText.length && typing.currentInput[i] !== typing.rawText[i]) {
+                    currentErrors++;
+                }
+            }
+            
+            typing.correctChars = currentCorrectChars;
+            // Errors are calculated by characters typed that are wrong OR extra characters
+            typing.errors = currentErrors + Math.max(0, typing.currentInput.length - typing.rawText.length);
+            
+            typing.currentIndex = typing.currentInput.length;
+            
+            // Check if completed the current text
+            if (typing.currentInput === typing.rawText) {
+                const textsForDifficulty = getTypingTextsByDifficulty(typing.difficulty);
+                typing.rawText = textsForDifficulty[Math.floor(Math.random() * textsForDifficulty.length)];
+                typing.currentIndex = 0;
+                e.target.value = '';
+                typing.currentInput = '';
+                
+                // Add a small time bonus for completing a text quickly
+                typing.timeLeft = Math.min(typing.timeLeft + 5, getTypingInitialTime(typing.difficulty)); // Max cap at initial time
+            }
+            
+            displayTypingText();
+            updateTypingStats();
+        });
+
+        // Event listener for difficulty change
+        document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+            radio.addEventListener('change', initTyping);
+        });
+
+        function getTypingInitialTime(difficulty) {
+            if (difficulty === 'easy') return 60;
+            if (difficulty === 'medium') return 90;
+            if (difficulty === 'hard') return 120;
+            return 60; // Default
+        }
+
+
+        // Flappy Bird Game Logic
+        let flappy = {
+            canvas: null,
+            ctx: null,
+            bird: { x: 80, y: 300, velocity: 0, size: 20 },
+            pipes: [],
+            score: 0,
+            bestScore: 0,
+            gameRunning: false,
+            gameStarted: false,
+            gravity: 0.6,
+            jumpPower: -12,
+            pipeWidth: 60,
+            pipeGap: 200,
+            pipeSpeed: 3,
+            animationFrameId: null // To store the requestAnimationFrame ID
+        };
+
+        function initFlappy() {
+            flappy.canvas = document.getElementById('flappyCanvas');
+            flappy.ctx = flappy.canvas.getContext('2d');
+            flappy.bird = { x: 80, y: 300, velocity: 0, size: 20 };
+            flappy.pipes = [];
+            flappy.score = 0;
+            flappy.gameRunning = false;
+            flappy.gameStarted = false;
+            
+            // Load best score
+            flappy.bestScore = parseInt(localStorage.getItem('flappyBest') || '0');
+            
+            updateFlappyScore();
+            drawFlappy();
+        }
+
+        function startFlappyGame() {
+            if (flappy.gameRunning) return; // Prevent multiple starts
+            flappy.gameRunning = true;
+            flappy.gameStarted = true;
+            flappy.bird.y = 300;
+            flappy.bird.velocity = 0;
+            flappy.pipes = [];
+            flappy.score = 0;
+            
+            // Add initial pipes
+            // Ensure pipes are far enough apart initially to not be a collision immediately
+            flappy.pipes.push({
+                x: flappy.canvas.width + 100, // Start off-screen to the right
+                topHeight: Math.random() * (flappy.canvas.height - flappy.pipeGap - 100) + 50,
+                passed: false
+            });
+            flappy.pipes.push({
+                x: flappy.canvas.width + 100 + flappy.pipeGap + 100, // Another pipe after a gap
+                topHeight: Math.random() * (flappy.canvas.height - flappy.pipeGap - 100) + 50,
+                passed: false
+            });
+            
+            flappyGameLoop();
+        }
+
+        function flappyGameLoop() {
+            if (!flappy.gameRunning) {
+                cancelAnimationFrame(flappy.animationFrameId); // Stop the loop
+                return;
+            }
+            
+            updateFlappyBird();
+            updateFlappyPipes();
+            checkFlappyCollisions();
+            drawFlappy();
+            
+            flappy.animationFrameId = requestAnimationFrame(flappyGameLoop);
+        }
+
+        function updateFlappyBird() {
+            flappy.bird.velocity += flappy.gravity;
+            flappy.bird.y += flappy.bird.velocity;
+        }
+
+        function updateFlappyPipes() {
+            for (let i = flappy.pipes.length - 1; i >= 0; i--) {
+                const pipe = flappy.pipes[i];
+                pipe.x -= flappy.pipeSpeed;
+                
+                // Check if bird passed pipe
+                if (!pipe.passed && pipe.x + flappy.pipeWidth < flappy.bird.x) {
+                    pipe.passed = true;
+                    flappy.score++;
+                    updateFlappyScore();
+                }
+                
+                // Remove pipes that are off screen
+                if (pipe.x + flappy.pipeWidth < 0) {
+                    flappy.pipes.splice(i, 1);
+                }
+            }
+            
+            // Add new pipes
+            // Ensure new pipes are added only when the last pipe is sufficiently far to the left
+            const lastPipe = flappy.pipes[flappy.pipes.length - 1];
+            if (flappy.pipes.length === 0 || lastPipe.x < flappy.canvas.width - 200) { // Adjust 200 for spacing
+                flappy.pipes.push({
+                    x: flappy.canvas.width,
+                    topHeight: Math.random() * (flappy.canvas.height - flappy.pipeGap - 100) + 50,
+                    passed: false
+                });
+            }
+        }
+
+        function checkFlappyCollisions() {
+            // Ground and ceiling collision
+            if (flappy.bird.y + flappy.bird.size > flappy.canvas.height - 50 || flappy.bird.y < 0) { // Account for ground
+                endFlappyGame();
+                return;
+            }
+            
+            // Pipe collision
+            for (const pipe of flappy.pipes) {
+                if (flappy.bird.x + flappy.bird.size > pipe.x && 
+                    flappy.bird.x < pipe.x + flappy.pipeWidth) {
+                    if (flappy.bird.y < pipe.topHeight || 
+                        flappy.bird.y + flappy.bird.size > pipe.topHeight + flappy.pipeGap) {
+                        endFlappyGame();
+                        return;
+                    }
+                }
+            }
+        }
+
+        function drawFlappy() {
+            // Clear canvas
+            flappy.ctx.fillStyle = '#87CEEB';
+            flappy.ctx.fillRect(0, 0, flappy.canvas.width, flappy.canvas.height);
+            
+            // Draw ground
+            flappy.ctx.fillStyle = '#98FB98';
+            flappy.ctx.fillRect(0, flappy.canvas.height - 50, flappy.canvas.width, 50);
+            
+            // Draw pipes
+            flappy.ctx.fillStyle = '#228B22';
+            for (const pipe of flappy.pipes) {
+                // Top pipe
+                flappy.ctx.fillRect(pipe.x, 0, flappy.pipeWidth, pipe.topHeight);
+                // Bottom pipe
+                flappy.ctx.fillRect(pipe.x, pipe.topHeight + flappy.pipeGap, flappy.pipeWidth, 
+                                   flappy.canvas.height - pipe.topHeight - flappy.pipeGap - 50); // Account for ground
+            }
+            
+            // Draw bird
+            flappy.ctx.fillStyle = '#FFD700';
+            flappy.ctx.fillRect(flappy.bird.x, flappy.bird.y, flappy.bird.size, flappy.bird.size);
+            
+            // Draw start message
+            if (!flappy.gameStarted) {
+                flappy.ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                flappy.ctx.fillRect(0, 0, flappy.canvas.width, flappy.canvas.height);
+                flappy.ctx.fillStyle = '#fff';
+                flappy.ctx.font = '24px Arial';
+                flappy.ctx.textAlign = 'center';
+                flappy.ctx.fillText('Click to Start!', flappy.canvas.width/2, flappy.canvas.height/2);
+            }
+        }
+
+        function flappyJump() {
+            if (!flappy.gameStarted) {
+                startFlappyGame();
+            } else if (flappy.gameRunning) {
+                flappy.bird.velocity = flappy.jumpPower;
+            }
+        }
+
+        function endFlappyGame() {
+            flappy.gameRunning = false;
+            cancelAnimationFrame(flappy.animationFrameId); // Ensure the loop stops
+            
+            if (flappy.score > flappy.bestScore) {
+                flappy.bestScore = flappy.score;
+                localStorage.setItem('flappyBest', flappy.bestScore.toString());
+            }
+            
+            updateFlappyScore();
+            setTimeout(() => {
+                alert(`Game Over!\nScore: ${flappy.score}\nBest Score: ${flappy.bestScore}`);
+                flappy.gameStarted = false; // Reset for next game start message
+                drawFlappy(); // Draw the initial screen
+            }, 100);
+        }
+
+        function updateFlappyScore() {
+            document.getElementById('flappyScore').textContent = flappy.score;
+            document.getElementById('flappyBest').textContent = flappy.bestScore;
+        }
+
+        // Flappy Bird event listeners
+        document.getElementById('flappyCanvas').addEventListener('click', flappyJump);
+        
+        document.addEventListener('keydown', (e) => {
+            if (currentGame === 'flappy' && e.code === 'Space') {
+                e.preventDefault();
+                flappyJump();
+            }
+        });
+
+        // Memory Game Logic
+        let memory = {
+            cards: [],
+            flippedCards: [],
+            moves: 0,
+            matches: 0,
+            canFlip: true
+        };
+
+        function initMemory() {
+            memory.moves = 0;
+            memory.matches = 0;
+            memory.flippedCards = [];
+            memory.canFlip = true;
+            
+            const emojis = ['🎮', '🎯', '🚀', '⭐', '🎪', '🎨', '🎭', '🎬'];
+            memory.cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            
+            memory.cards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.textContent = '?';
+                card.addEventListener('click', flipCard);
+                grid.appendChild(card);
+            });
+            
+            updateMemoryScore();
+        }
+
+        function flipCard(e) {
+            if (!memory.canFlip) return;
+            
+            const card = e.target;
+            const index = parseInt(card.dataset.index);
+            
+            if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            
+            // Display the emoji immediately when flipped
+            card.textContent = memory.cards[index];
+            card.classList.add('flipped');
+            memory.flippedCards.push({card, index});
+            
+            if (memory.flippedCards.length === 2) {
+                memory.moves++;
+                memory.canFlip = false;
+                
+                setTimeout(() => {
+                    checkMatch();
+                }, 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = memory.flippedCards;
+            
+            if (memory.cards[card1.index] === memory.cards[card2.index]) {
+                card1.card.classList.add('matched');
+                card2.card.classList.add('matched');
+                memory.matches++;
+                
+                if (memory.matches === 8) { // All 8 pairs matched
+                    setTimeout(() => {
+                        alert(`Congratulations! You won in ${memory.moves} moves!`);
+                    }, 500);
+                }
+            } else {
+                card1.card.textContent = '?';
+                card2.card.textContent = '?';
+                card1.card.classList.remove('flipped');
+                card2.card.classList.remove('flipped');
+            }
+            
+            memory.flippedCards = [];
+            memory.canFlip = true;
+            updateMemoryScore();
+        }
+
+        function updateMemoryScore() {
+            document.getElementById('memoryMoves').textContent = memory.moves;
+            document.getElementById('memoryMatches').textContent = memory.matches;
+        }
+
+        function restartMemory() {
+            initMemory();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add some entrance animations
+            const cards = document.querySelectorAll('.game-card');
+            cards.forEach((card, index) => {
+                card.style.animation = `fadeIn 0.8s ease-out ${index * 0.2}s both`;
+            });
+
+            // Set default difficulty for typing game
+            document.getElementById('easy').checked = true;
+            initTyping(); // Initialize typing game on load with default difficulty
+        });
+    </script>
+</body>
+</html>

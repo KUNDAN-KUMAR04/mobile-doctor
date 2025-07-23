@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Google Drive Folder</title>
+    <!-- Load Tailwind CSS for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Apply Inter font and basic body styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5; /* Light gray background */
+            margin: 0;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+        <!-- Main heading -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Access My Google Drive Folder</h1>
+        <!-- Description paragraph -->
+        <p class="text-gray-600 mb-6">
+            Click the button below to open the shared Google Drive folder.
+            Please note that this page links to the folder; the contents within the folder are subject to Google Drive's sharing and indexing policies.
+        </p>
+        <!-- Link button -->
+        <a href="https://drive.google.com/drive/folders/1KRRkk88wnp7NcQRpb_3kr_UfXH6j9Ub-?usp=drive_link"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+            Open Google Drive Folder
+        </a>
+
+        <!-- Optional: Small note about indexing -->
+        <p class="text-sm text-gray-500 mt-8">
+            This HTML page helps make the link discoverable. For direct indexing of content within the Google Drive folder, consider hosting the content on a public website.
+        </p>
+    </div>
+</body>
+</html>

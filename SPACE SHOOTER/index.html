@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Shooter - Client Side Game</title>
+    <style>
+        /* General styling for the body and overall layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            overflow: hidden;
+            flex-direction: column; /* Allow content to stack vertically */
+        }
+
+        /* Container for the game and ad space */
+        .main-content-wrapper {
+            display: flex;
+            flex-direction: column; /* Always stack game and ad vertically */
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Small gap between elements */
+            width: 100vw; /* Take full viewport width */
+            height: 100vh; /* Take full viewport height */
+            padding: 10px; /* Some padding from edges */
+            box-sizing: border-box;
+        }
+
+        /* Styling for the main game container */
+        .game-container {
+            position: relative;
+            width: 100%; /* Take full width of wrapper */
+            flex-grow: 1; /* Take available vertical space */
+            max-width: 1000px; /* Limit max width on very large screens */
+            /* max-height will be set dynamically by JS based on ad visibility */
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0c0c0c 100%);
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(74, 144, 226, 0.5);
+            display: flex; /* Use flex to center canvas if it doesn't fill */
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0; /* Prevent shrinking when ad is present */
+        }
+
+        /* Canvas styling to ensure it fills the container */
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: crosshair;
+        }
+
+        /* Styling for the in-game UI elements (score, health, level) */
+        .game-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none; /* Allows clicks to pass through to the canvas */
+        }
+
+        /* Styling for individual UI elements */
+        .score, .health, .level {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            border: 1px solid rgba(74, 144, 226, 0.5);
+        }
+
+        /* Health bar styling */
+        .health-bar {
+            width: 150px;
+            height: 20px;
+            background: rgba(255, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Health fill styling with gradient and transition */
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ff6666);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* Styling for start, game over, and login screens */
+        .start-screen, .game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        /* Game title styling with gradient and glow animation */
+        .game-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #4a90e2, #50c878);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        /* Keyframe animation for the glow effect */
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(74, 144, 226, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(80, 200, 120, 0.8)); }
+        }
+
+        /* Styling for game buttons */
+        .game-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #4a90e2, #50c878);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        /* Hover effect for game buttons */
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Instructions text styling */
+        .instructions {
+            text-align: center;
+            margin: 20px 0;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Controls display at the bottom */
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            /* Hide by default, shown by JS/media query for larger screens */
+            display: block; 
+        }
+
+        /* Pause button styling */
+        .pause-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(74, 144, 226, 0.5);
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            z-index: 11; /* Above other UI elements */
+            transition: all 0.2s ease;
+        }
+
+        .pause-button:hover {
+            background: rgba(74, 144, 226, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Power-ups UI container */
+        .power-ups-ui {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Individual power-up indicator styling */
+        .power-up-indicator {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite; /* Added a subtle pulse animation */
+        }
+
+        /* Styling for boost timers within indicators */
+        .boost-timer {
+            color: #50c878;
+            font-weight: bold;
+        }
+
+        /* Level up notification styling */
+        .level-up-notification {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #4a90e2, #50c878);
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 50;
+            animation: levelUpAnim 3s ease-out forwards; /* Animation for level up */
+            pointer-events: none;
+        }
+
+        /* Keyframe animation for level up notification */
+        @keyframes levelUpAnim {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Utility class to hide elements */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Advertisement container */
+        .ad-container {
+            width: 100%;
+            max-width: 1000px; /* Match game container max-width */
+            height: 200px; /* Increased height for ad */
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px dashed #4a90e2;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #aaa;
+            font-size: 0.9rem;
+            text-align: center;
+            flex-shrink: 0; /* Prevent shrinking */
+            overflow: hidden; /* Hide overflow if ad content is too large */
+            padding: 10px;
+            transition: height 0.3s ease-out, opacity 0.3s ease-out; /* Smooth transition for hiding/showing */
+        }
+
+        /* New: Game Statistics / Leaderboard container */
+        .game-statistics {
+            width: 100%;
+            max-width: 1000px; /* Match game container max-width */
+            min-height: 50px; /* Fixed height for stats */
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #50c878; /* Green border for contrast */
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #eee;
+            font-size: 1rem;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 0 15px rgba(80, 200, 120, 0.3);
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        
+        /* Media queries for responsiveness */
+        @media (max-width: 1024px) { /* Adjust for smaller screens */
+            .game-container {
+                border-radius: 0; /* No border radius on full screen */
+            }
+            .game-title {
+                font-size: 2rem;
+            }
+            .power-ups-ui {
+                font-size: 0.8rem;
+            }
+            .controls {
+                display: none; /* Hide keyboard controls hint on small screens */
+            }
+            /* Ad container behavior on smaller screens */
+            .ad-container {
+                height: 150px; /* Slightly smaller height for mobile ads */
+            }
+            .game-statistics {
+                min-height: 40px; /* Slightly smaller height for mobile stats */
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* No specific height adjustments here, handled by JS and flex-grow */
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content-wrapper">
+        <!-- New: Game Statistics / Leaderboard container -->
+        <div class="game-statistics">
+            <h3>Game Statistics / Leaderboard</h3>
+            <p>Current Player: <span id="displayUsername">Guest</span> | User ID: <span id="displayUserId">N/A</span></p>
+            <!-- You can dynamically update this content with actual high scores -->
+        </div>
+
+        <div class="game-container">
+            <!-- Canvas where the game will be drawn -->
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- Game UI elements (Score, Health, Level) -->
+            <div class="game-ui">
+                <div class="score">Score: <span id="scoreValue">0</span></div>
+                <div class="health">
+                    <div>Health <span id="healthBoostTimer" class="boost-timer"></span></div>
+                    <div class="health-bar">
+                        <div class="health-fill" id="healthFill"></div>
+                    </div>
+                </div>
+                <div class="level">Level: <span id="levelValue">1</span></div>
+            </div>
+
+            <!-- Pause Button -->
+            <button class="pause-button" id="pauseButton" onclick="togglePause()">PAUSE</button>
+            
+            <!-- Power-ups indicators -->
+            <div class="power-ups-ui">
+                <div class="power-up-indicator hidden" id="bigBulletsIndicator">
+                    🔥 Big Bullets: <span class="timer"></span>s
+                </div>
+                <div class="power-up-indicator hidden" id="multiGunIndicator">
+                    🔫 Multi-Gun: <span class="timer"></span>s
+                </div>
+                <div class="power-up-indicator hidden" id="maxHealthIndicator">
+                    💚 Max Health: <span class="timer"></span>s
+                </div>
+                <div class="power-up-indicator hidden" id="shieldIndicator">
+                    🛡️ Shield: <span class="timer"></span>s
+                </div>
+                <div class="power-up-indicator hidden" id="rapidFireIndicator">
+                    ⚡ Rapid Fire: <span class="timer"></span>s
+                </div>
+                <div class="power-up-indicator hidden" id="scoreMultiplierIndicator">
+                    ⭐ Score x<span id="scoreMultiplierValue">2</span>: <span class="timer"></span>s
+                </div>
+            </div>
+
+            <!-- Start screen (now the initial screen) -->
+            <div class="start-screen" id="startScreen">
+                <h1 class="game-title">🚀 SPACE SHOOTER</h1>
+                <div class="instructions">
+                    <p>Defend Earth from alien invaders!</p>
+                    <p>Use WASD or Arrow Keys to move</p>
+                    <p>Click or Spacebar to shoot</p>
+                    <p>Collect power-ups to upgrade your weapons</p>
+                </div>
+                <button class="game-button" onclick="startGame()">START GAME</button>
+            </div>
+
+            <!-- Game over screen -->
+            <div class="game-over-screen hidden" id="gameOverScreen">
+                <h1 class="game-title">GAME OVER</h1>
+                <div class="instructions">
+                    <p>Final Score: <span id="finalScore">0</span></p>
+                    <p>Level Reached: <span id="finalLevel">1</span></p>
+                </div>
+                <button class="game-button" onclick="restartGame()">PLAY AGAIN</button>
+            </div>
+
+            <!-- Game controls hint for desktop -->
+            <div class="controls">
+                WASD/Arrow Keys: Move | Space/Click: Shoot | ESC: Pause
+            </div>
+        </div>
+
+        <!-- Advertisement Container -->
+        <div class="ad-container" id="adContainer">
+            <!-- Your advertisement content goes here -->
+            <p>Advertisement Space</p>
+            <p>This area is for ads and will not affect gameplay.</p>
+            <h3>Discover New Games!</h3>
+            <p>Check out our other exciting titles!</p>
+            <!-- Example: <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+            <!-- <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script> -->
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const gameContainer = document.querySelector('.game-container');
+        const adContainer = document.getElementById('adContainer'); // Get the ad container element
+        const pauseButton = document.getElementById('pauseButton'); // Get the pause button element
+        const displayUsername = document.getElementById('displayUsername'); // Element to display username
+        const displayUserId = document.getElementById('displayUserId');     // Element to display user ID
+        
+        // Global variable to store the logged-in username and unique ID
+        let loggedInUsername = 'Guest'; // Default to 'Guest' since there's no login
+        let userUniqueId = ''; // To store the unique user ID
+
+        // Game state variables
+        let gameRunning = false;
+        let gamePaused = false;
+        let score = 0;
+        let level = 1;
+        let health = 100;
+        let maxHealth = 100; // Player's current maximum health
+        let lastHealthRegenTime = Date.now(); // To track health regeneration
+
+        // Power-up effects and their durations
+        let powerUpEffects = {
+            bigBullets: { active: false, timeLeft: 0, duration: 10000 }, // 10 seconds
+            maxHealth: { active: false, timeLeft: 0, duration: 15000 },  // 15 seconds
+            multiGun: { active: false, timeLeft: 0, duration: 12000, gunCount: 3 }, // 12 seconds, fires 3 bullets
+            shield: { active: false, timeLeft: 0, duration: 8000 }, // 8 seconds of invincibility
+            rapidFire: { active: false, timeLeft: 0, duration: 7000 }, // 7 seconds of rapid fire
+            scoreMultiplier: { active: false, timeLeft: 0, duration: 10000, multiplier: 2 } // 10 seconds, 2x score
+        };
+        
+        // Score targets for each level progression (extended for more levels)
+        let levelTargets = [
+            0, 200, 500, 1000, 1800, 2800, 4000, 5500, 7500, 10000, 
+            12500, 15000, 18000, 21000, 25000, 30000, 35000, 40000, 
+            45000, 50000, 60000, 70000, 80000, 90000, 100000, 
+            110000, 120000, 130000, 140000, 150000, 160000, 170000, 
+            180000, 190000, 200000, 210000, 220000, 230000, 240000, 250000,
+            260000, 270000, 280000, 290000, 300000, 310000, 320000, 330000,
+            340000, 350000, 360000, 370000, 380000, 390000, 400000,
+            410000, 420000, 430000, 440000, 450000, 460000, 470000, 480000, 490000, 500000,
+            510000, 520000, 530000, 540000, 550000, 560000, 570000, 580000, 590000, 600000,
+            610000, 620000, 630000, 640000, 650000, 660000, 670000, 680000, 690000, 700000,
+            710000, 720000, 730000, 740000, 750000, 760000, 770000, 780000, 790000, 800000,
+            810000, 820000, 830000, 840000, 850000, 860000, 870000, 880000, 890000, 900000,
+            910000, 920000, 930000, 940000, 950000, 960000, 970000, 980000, 990000, 1000000, // Up to level 50 here
+            1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000, 2000000, // Level 60
+            2100000, 2200000, 2300000, 2400000, 2500000, 2600000, 2700000, 2800000, 2900000, 3000000, // Level 70
+            3100000, 3200000, 3300000, 3400000, 3500000, 3600000, 3700000, 3800000, 3900000, 4000000, // Level 80
+            4100000, 4200000, 4300000, 4400000, 4500000, 4600000, 4700000, 4800000, 4900000, 5000000, // Level 90
+            5100000, 5200000, 5300000, 5400000, 5500000, 5600000, 5700000, 5800000, 5900000, 6000000 // Level 100
+        ];
+
+        // Different types of enemies
+        let enemyTypes = ['basic', 'fast', 'tank', 'shooter'];
+        // Array to hold enemy bullets
+        let enemyBullets = [];
+        
+        // Player object properties
+        const player = {
+            x: 0, // Will be set dynamically
+            y: 0, // Will be set dynamically
+            width: 30,
+            height: 30,
+            speed: 5,
+            color: '#4a90e2', // Player ship color
+            lastShotTime: 0, // To control fire rate
+            fireRate: 200, // Milliseconds between shots (default)
+            invincible: false, // For shield power-up
+            hitEffectTime: 0 // For visual damage feedback
+        };
+
+        // Arrays to hold game entities
+        let bullets = [];
+        let enemies = [];
+        let powerUps = [];
+        let particles = [];
+        let stars = [];
+        let levelUpNotifications = []; // For displaying level up messages
+
+        // Object to track pressed keys for smooth movement
+        const keys = {};
+
+        // Function to resize the canvas to fit its container
+        function resizeCanvas() {
+            canvas.width = gameContainer.clientWidth;
+            canvas.height = gameContainer.clientHeight;
+            
+            // Adjust player position relative to new canvas size
+            player.x = canvas.width / 2 - player.width / 2;
+            player.y = canvas.height - 50;
+
+            // Re-initialize stars to fill the new canvas dimensions
+            initStars();
+        }
+        
+        // Function to initialize background stars
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < 100; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    speed: Math.random() * 2 + 1, // Random speed for parallax effect
+                    size: Math.random() * 2 + 1,   // Random size
+                    opacity: Math.random() * 0.8 + 0.2 // Random opacity
+                });
+            }
+        }
+
+        // Event listeners for keyboard input
+        document.addEventListener('keydown', (e) => {
+            keys[e.key.toLowerCase()] = true; // Set key to true when pressed
+            if (e.key === ' ') {
+                e.preventDefault(); // Prevent spacebar from scrolling
+                if (gameRunning && !gamePaused) shootBullet(); // Shoot if game is running and not paused
+            }
+            if (e.key === 'escape') { // Changed to lowercase 'escape'
+                togglePause(); // Toggle pause on Esc key
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key.toLowerCase()] = false; // Set key to false when released
+        });
+
+        // Event listener for mouse click to shoot
+        canvas.addEventListener('click', (e) => {
+            if (gameRunning && !gamePaused) {
+                shootBullet();
+            }
+        });
+
+        // Event listener for mouse movement to control player
+        canvas.addEventListener('mousemove', (e) => {
+            if (gameRunning && !gamePaused) {
+                const rect = canvas.getBoundingClientRect();
+                player.x = (e.clientX - rect.left) - player.width / 2;
+                player.y = (e.clientY - rect.top) - player.height / 2;
+            }
+        });
+
+        // Function to start the game
+        function startGame() {
+            document.getElementById('startScreen').classList.add('hidden'); // Hide start screen
+            gameRunning = true;
+            resetGame(); // Reset all game variables
+            gameLoop(); // Start the game loop
+            // Hide ad container when game starts
+            adContainer.style.height = '0';
+            adContainer.style.opacity = '0';
+            adContainer.style.pointerEvents = 'none'; /* Disable interactions */
+            pauseButton.style.display = 'block'; // Show pause button
+            
+            // Adjust game container height for full screen gameplay
+            const statsHeight = document.querySelector('.game-statistics').offsetHeight;
+            const totalVerticalGap = 10 * 2; // Gap above and below game container
+            gameContainer.style.maxHeight = `calc(100% - ${statsHeight}px - ${totalVerticalGap}px)`; 
+            resizeCanvas(); // Recalculate canvas size based on new container height
+        }
+
+        // Function to reset game state
+        function resetGame() {
+            score = 0;
+            level = 1;
+            health = 100;
+            maxHealth = 100;
+            lastHealthRegenTime = Date.now();
+            player.x = canvas.width / 2 - player.width / 2; // Reset player position
+            player.y = canvas.height - 50; // Reset player position
+            bullets = [];
+            enemies = [];
+            powerUps = [];
+            particles = [];
+            enemyBullets = [];
+            levelUpNotifications = [];
+            
+            // Reset all power-up effects
+            powerUpEffects.bigBullets = { active: false, timeLeft: 0, duration: 10000 };
+            powerUpEffects.maxHealth = { active: false, timeLeft: 0, duration: 15000 };
+            powerUpEffects.multiGun = { active: false, timeLeft: 0, duration: 12000, gunCount: 3 };
+            powerUpEffects.shield = { active: false, timeLeft: 0, duration: 8000 };
+            powerUpEffects.rapidFire = { active: false, timeLeft: 0, duration: 7000 };
+            powerUpEffects.scoreMultiplier = { active: false, timeLeft: 0, duration: 10000, multiplier: 2 };
+
+            player.fireRate = 200; // Reset fire rate
+            player.invincible = false; // Reset invincibility
+            player.hitEffectTime = 0; // Reset hit effect
+            
+            updateUI(); // Update UI to reflect reset state
+        }
+
+        // Function to restart the game after game over
+        function restartGame() {
+            document.getElementById('gameOverScreen').classList.add('hidden'); // Hide game over screen
+            startGame(); // Start a new game
+        }
+
+        // Function to toggle game pause state
+        function togglePause() {
+            if (gameRunning) {
+                gamePaused = !gamePaused;
+                const statsHeight = document.querySelector('.game-statistics').offsetHeight;
+                const totalVerticalGap = 10 * 2; // Gap above and below game container
+                const adHeight = 200; // Fixed ad height (Increased)
+
+                if (gamePaused) {
+                    // Show ad container when paused
+                    adContainer.style.height = `${adHeight}px`;
+                    adContainer.style.opacity = '1';
+                    adContainer.style.pointerEvents = 'auto'; /* Enable interactions */
+                    pauseButton.textContent = 'RESUME'; // Change button text
+                    gameContainer.style.maxHeight = `calc(100% - ${statsHeight}px - ${totalVerticalGap}px - ${adHeight}px - 10px)`; // Ad visible height + its gap
+                } else {
+                    // Hide ad container when unpaused
+                    adContainer.style.height = '0';
+                    adContainer.style.opacity = '0';
+                    adContainer.style.pointerEvents = 'none'; /* Disable interactions */
+                    pauseButton.textContent = 'PAUSE'; // Change button text
+                    gameContainer.style.maxHeight = `calc(100% - ${statsHeight}px - ${totalVerticalGap}px)`; // Ad hidden height
+                    requestAnimationFrame(gameLoop); // Resume game loop
+                }
+                resizeCanvas(); // Recalculate canvas size after container height change
+            }
+        }
+
+        // Function to update the game UI
+        function updateUI() {
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('levelValue').textContent = level;
+            document.getElementById('healthFill').style.width = (health / maxHealth) * 100 + '%';
+            
+            // Update max health boost timer display
+            if (powerUpEffects.maxHealth.active) {
+                document.getElementById('healthBoostTimer').textContent = `(${Math.ceil(powerUpEffects.maxHealth.timeLeft / 1000)})`;
+                document.getElementById('healthBoostTimer').style.display = 'inline';
+            } else {
+                document.getElementById('healthBoostTimer').style.display = 'none';
+            }
+            
+            // Update visibility and timers for all power-up indicators
+            updatePowerUpIndicators();
+        }
+        
+        // Function to manage power-up indicator visibility and timers
+        function updatePowerUpIndicators() {
+            const indicators = ['bigBullets', 'multiGun', 'maxHealth', 'shield', 'rapidFire', 'scoreMultiplier'];
+            
+            indicators.forEach(type => {
+                const indicator = document.getElementById(type + 'Indicator');
+                if (powerUpEffects[type].active) {
+                    indicator.classList.remove('hidden'); // Show indicator
+                    const timerSpan = indicator.querySelector('.timer');
+                    if (timerSpan) {
+                        timerSpan.textContent = Math.ceil(powerUpEffects[type].timeLeft / 1000); // Update timer
+                    }
+                    if (type === 'scoreMultiplier') {
+                        document.getElementById('scoreMultiplierValue').textContent = powerUpEffects[type].multiplier;
+                    }
+                } else {
+                    indicator.classList.add('hidden'); // Hide indicator
+                }
+            });
+        }
+
+        // Function to handle player shooting
+        function shootBullet() {
+            const currentTime = Date.now();
+            if (currentTime - player.lastShotTime < player.fireRate) {
+                return; // Don't shoot if fire rate limit is not met
+            }
+
+            player.lastShotTime = currentTime; // Update last shot time
+
+            if (powerUpEffects.multiGun.active) {
+                // Multi-gun shooting logic
+                const gunCount = powerUpEffects.multiGun.gunCount;
+                const spread = 15; // Angle spread between bullets
+                
+                for (let i = 0; i < gunCount; i++) {
+                    const angle = (i - (gunCount - 1) / 2) * spread; // Calculate angle for each bullet
+                    const bulletSize = powerUpEffects.bigBullets.active ? 8 : 3;
+                    const bulletHeight = powerUpEffects.bigBullets.active ? 15 : 10;
+                    
+                    bullets.push({
+                        x: player.x + player.width / 2 - bulletSize / 2,
+                        y: player.y,
+                        width: bulletSize,
+                        height: bulletHeight,
+                        speed: 8,
+                        angle: angle, // Apply calculated angle
+                        color: powerUpEffects.bigBullets.active ? '#ff6b6b' : '#50c878', // Color changes with big bullets
+                        damage: powerUpEffects.bigBullets.active ? 3 : 1 // Damage changes with big bullets
+                    });
+                }
+            } else {
+                // Single bullet shooting logic
+                const bulletSize = powerUpEffects.bigBullets.active ? 8 : 3;
+                const bulletHeight = powerUpEffects.bigBullets.active ? 15 : 10;
+                
+                bullets.push({
+                    x: player.x + player.width / 2 - bulletSize / 2,
+                    y: player.y,
+                    width: bulletSize,
+                    height: bulletHeight,
+                    speed: 8,
+                    angle: 0, // No angle for single bullet
+                    color: powerUpEffects.bigBullets.active ? '#ff6b6b' : '#50c878',
+                    damage: powerUpEffects.bigBullets.active ? 3 : 1
+                });
+            }
+        }
+
+        // Function to spawn enemies
+        function spawnEnemy() {
+            // Spawn rate increases with level
+            const spawnRate = 0.02 + level * 0.008; 
+            if (Math.random() < spawnRate) {
+                let enemyType = 'basic';
+                
+                // Determine enemy type based on current level and random chance
+                if (level >= 3 && Math.random() < 0.3) enemyType = 'fast';
+                if (level >= 5 && Math.random() < 0.2) enemyType = 'tank';
+                if (level >= 7 && Math.random() < 0.15) enemyType = 'shooter';
+                
+                const enemy = {
+                    x: Math.random() * (canvas.width - 30),
+                    y: -30, // Start above the canvas
+                    width: 25,
+                    height: 25,
+                    speed: 2 + level * 0.2, // Speed increases with level
+                    type: enemyType,
+                    shootTimer: 0, // For shooter enemies
+                    lastShot: 0    // For shooter enemies
+                };
+                
+                // Set specific properties based on enemy type
+                switch (enemyType) {
+                    case 'basic':
+                        enemy.color = '#ff4444';
+                        enemy.health = 1;
+                        enemy.points = 10;
+                        break;
+                    case 'fast':
+                        enemy.color = '#ffaa44';
+                        enemy.health = 1;
+                        enemy.speed *= 1.5; // Faster speed
+                        enemy.points = 15;
+                        break;
+                    case 'tank':
+                        enemy.color = '#aa4444';
+                        enemy.health = 3; // More health
+                        enemy.width = 35;
+                        enemy.height = 35;
+                        enemy.speed *= 0.7; // Slower speed
+                        enemy.points = 30;
+                        break;
+                    case 'shooter':
+                        enemy.color = '#4444ff';
+                        enemy.health = 2;
+                        enemy.points = 25;
+                        break;
+                }
+                
+                enemies.push(enemy);
+            }
+        }
+
+        // Function to spawn power-ups
+        function spawnPowerUp() {
+            if (Math.random() < 0.008) { // Small chance to spawn a power-up
+                const powerUpTypes = ['health', 'bigBullets', 'multiGun', 'maxHealth', 'shield', 'rapidFire', 'scoreMultiplier'];
+                const type = powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)]; // Randomly select a power-up type
+                
+                let color, symbol;
+                switch (type) {
+                    case 'health':
+                        color = '#ff6b6b';
+                        symbol = '❤️';
+                        break;
+                    case 'bigBullets':
+                        color = '#ff9500';
+                        symbol = ' ';
+                        break;
+                    case 'multiGun':
+                        color = '#4ecdc4';
+                        symbol = '🔫';
+                        break;
+                    case 'maxHealth':
+                        color = '#50c878';
+                        symbol = '💚';
+                        break;
+                    case 'shield':
+                        color = '#8e44ad';
+                        symbol = '🛡️';
+                        break;
+                    case 'rapidFire':
+                        color = '#f1c40f';
+                        symbol = '⚡';
+                        break;
+                    case 'scoreMultiplier':
+                        color = '#ffd700'; // Gold color
+                        symbol = '⭐';
+                        break;
+                }
+                
+                powerUps.push({
+                    x: Math.random() * (canvas.width - 25),
+                    y: -25,
+                    width: 25,
+                    height: 25,
+                    speed: 3,
+                    type: type,
+                    color: color,
+                    symbol: symbol,
+                    rotation: 0 // For visual rotation effect
+                });
+            }
+        }
+
+        // Function to update player's position based on input
+        function updatePlayer() {
+            // Keyboard movement (WASD or Arrow Keys)
+            if (keys['a'] || keys['arrowleft']) {
+                player.x -= player.speed;
+            }
+            if (keys['d'] || keys['arrowright']) {
+                player.x += player.speed;
+            }
+            if (keys['w'] || keys['arrowup']) {
+                player.y -= player.speed;
+            }
+            if (keys['s'] || keys['arrowdown']) {
+                player.y += player.speed;
+            }
+
+            // Keep player within canvas bounds
+            player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
+            player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
+        }
+
+        // Function to update bullet positions
+        function updateBullets() {
+            bullets = bullets.filter(bullet => {
+                // Move bullet based on its speed and angle
+                bullet.y -= bullet.speed;
+                bullet.x += Math.sin(bullet.angle * Math.PI / 180) * bullet.speed * 0.3;
+                // Remove bullets that go off-screen
+                return bullet.y > -bullet.height && bullet.x > -bullet.width && bullet.x < canvas.width + bullet.width;
+            });
+        }
+        
+        // Function to update enemy bullet positions
+        function updateEnemyBullets() {
+            enemyBullets = enemyBullets.filter(bullet => {
+                bullet.y += bullet.speed;
+                // Remove enemy bullets that go off-screen
+                return bullet.y < canvas.height + bullet.height;
+            });
+        }
+
+        // Function to update enemy positions and behavior
+        function updateEnemies() {
+            enemies = enemies.filter(enemy => {
+                enemy.y += enemy.speed;
+                
+                // Shooter enemies fire bullets at intervals
+                if (enemy.type === 'shooter' && enemy.y > 0 && enemy.y < canvas.height - 100) {
+                    const currentTime = Date.now();
+                    if (currentTime - enemy.lastShot > 1500) { // Fire every 1.5 seconds
+                        enemyBullets.push({
+                            x: enemy.x + enemy.width / 2,
+                            y: enemy.y + enemy.height,
+                            width: 4,
+                            height: 8,
+                            speed: 4,
+                            color: '#4444ff'
+                        });
+                        enemy.lastShot = currentTime;
+                    }
+                }
+                
+                // Remove enemies that go off-screen
+                return enemy.y < canvas.height;
+            });
+        }
+
+        // Function to update power-up positions and rotation
+        function updatePowerUps() {
+            powerUps = powerUps.filter(powerUp => {
+                powerUp.y += powerUp.speed;
+                powerUp.rotation += 3; // Rotate for visual effect
+                // Remove power-ups that go off-screen
+                return powerUp.y < canvas.height;
+            });
+        }
+        
+        // Function to manage active power-up durations
+        function updatePowerUpEffects() {
+            Object.keys(powerUpEffects).forEach(key => {
+                if (powerUpEffects[key].active) {
+                    powerUpEffects[key].timeLeft -= 16.67; // Decrease time left (assuming ~60fps)
+                    if (powerUpEffects[key].timeLeft <= 0) {
+                        powerUpEffects[key].active = false; // Deactivate power-up when time runs out
+                        
+                        // Special handling for power-ups when they expire
+                        if (key === 'maxHealth') {
+                            maxHealth = 100; // Reset max health to default
+                            health = Math.min(health, maxHealth); // Adjust current health if it exceeds new max
+                        } else if (key === 'shield') {
+                            player.invincible = false; // Deactivate invincibility
+                        } else if (key === 'rapidFire') {
+                            player.fireRate = 200; // Reset fire rate to default
+                        }
+                    }
+                }
+            });
+        }
+
+        // Function to update star positions for background parallax
+        function updateStars() {
+            stars.forEach(star => {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    // Reset star to top when it goes off-screen
+                    star.y = -star.size;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        // Function to create explosion particles
+        function createParticles(x, y, color) {
+            for (let i = 0; i < 5; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 6, // Random horizontal velocity
+                    vy: (Math.random() - 0.5) * 6, // Random vertical velocity
+                    life: 30, // Particle lifespan
+                    color: color
+                });
+            }
+        }
+
+        // Function to update particle positions and fade them out
+        function updateParticles() {
+            particles = particles.filter(particle => {
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.life--; // Decrease lifespan
+                particle.vx *= 0.98; // Slow down horizontally
+                particle.vy *= 0.98; // Slow down vertically
+                return particle.life > 0; // Remove dead particles
+            });
+        }
+
+        // Function to handle passive health regeneration
+        function healthRegeneration() {
+            const currentTime = Date.now();
+            if (currentTime - lastHealthRegenTime > 1000) { // Regenerate every 1 second
+                if (health < maxHealth) {
+                    health = Math.min(maxHealth, health + 1); // Regenerate 1 health point
+                }
+                lastHealthRegenTime = currentTime;
+            }
+        }
+
+        // Function to check for all types of collisions
+        function checkCollisions() {
+            // Bullet-enemy collisions
+            bullets.forEach((bullet, bulletIndex) => {
+                enemies.forEach((enemy, enemyIndex) => {
+                    if (bullet.x < enemy.x + enemy.width &&
+                        bullet.x + bullet.width > enemy.x &&
+                        bullet.y < enemy.y + enemy.height &&
+                        bullet.y + bullet.height > enemy.y) {
+                        
+                        createParticles(enemy.x + enemy.width/2, enemy.y + enemy.height/2, enemy.color); // Create particles on hit
+                        bullets.splice(bulletIndex, 1); // Remove bullet
+                        
+                        enemy.health -= bullet.damage || 1; // Apply damage to enemy
+                        if (enemy.health <= 0) {
+                            enemies.splice(enemyIndex, 1); // Remove enemy if health is zero
+                            // Apply score multiplier if active
+                            score += (enemy.points + level * 2) * (powerUpEffects.scoreMultiplier.active ? powerUpEffects.scoreMultiplier.multiplier : 1);
+                            
+                            checkLevelUp(); // Check if player should level up
+                        }
+                    }
+                });
+            });
+
+            // Player-enemy collisions
+            enemies.forEach((enemy, enemyIndex) => {
+                if (player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.y + player.height > enemy.y) {
+                    
+                    if (!player.invincible) { // Only take damage if not invincible
+                        createParticles(enemy.x + enemy.width/2, enemy.y + enemy.height/2, enemy.color); // Particles on collision
+                        enemies.splice(enemyIndex, 1); // Remove enemy
+                        
+                        const damage = powerUpEffects.maxHealth.active ? 10 : 20;
+                        health -= damage;
+                        player.hitEffectTime = Date.now() + 100; // Flash red for 100ms
+                        
+                        if (health <= 0) {
+                            gameOver(); // Game over if health drops to zero
+                        }
+                    } else {
+                        // If invincible, just remove the enemy without taking damage
+                        enemies.splice(enemyIndex, 1);
+                        createParticles(enemy.x + enemy.width/2, enemy.y + enemy.height/2, enemy.color);
+                    }
+                }
+            });
+
+            // Player-enemy bullet collisions
+            enemyBullets.forEach((bullet, bulletIndex) => {
+                if (player.x < bullet.x + bullet.width &&
+                    player.x + player.width > bullet.x &&
+                    player.y < bullet.y + bullet.height &&
+                    bullet.y + bullet.height > player.y) { 
+                    
+                    if (!player.invincible) { // Only take damage if not invincible
+                        createParticles(bullet.x, bullet.y, bullet.color); // Particles on hit
+                        enemyBullets.splice(bulletIndex, 1); // Remove enemy bullet
+                        
+                        const damage = powerUpEffects.maxHealth.active ? 8 : 15;
+                        health -= damage;
+                        player.hitEffectTime = Date.now() + 100; // Flash red for 100ms
+                        
+                        if (health <= 0) {
+                            gameOver(); // Game over if health drops to zero
+                        }
+                    } else {
+                        // If invincible, just remove the bullet without taking damage
+                        enemyBullets.splice(bulletIndex, 1);
+                        createParticles(bullet.x, bullet.y, bullet.color);
+                    }
+                }
+            });
+
+            // Player-powerup collisions
+            powerUps.forEach((powerUp, powerUpIndex) => {
+                if (player.x < powerUp.x + powerUp.width &&
+                    player.x + powerUp.width > powerUp.x &&
+                    player.y < powerUp.y + powerUp.height &&
+                    player.y + powerUp.height > player.y) {
+                    
+                    createParticles(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2, powerUp.color); // Particles on collection
+                    
+                    applyPowerUp(powerUp.type); // Apply the power-up effect
+                    powerUps.splice(powerUpIndex, 1); // Remove power-up
+                }
+            });
+        }
+        
+        // Function to check for level progression
+        function checkLevelUp() {
+            // Find the next level target based on current score
+            // Ensure we don't go out of bounds for levelTargets
+            const nextLevelIndex = levelTargets.findIndex(target => score < target);
+            const targetLevel = (nextLevelIndex === -1) ? levelTargets.length : nextLevelIndex;
+            
+            if (targetLevel > level) {
+                level = targetLevel; // Update current level
+                showLevelUpNotification(); // Display level up message
+            }
+        }
+        
+        // Function to display a "LEVEL UP!" notification
+        function showLevelUpNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'level-up-notification';
+            notification.textContent = `LEVEL ${level}!`;
+            document.querySelector('.game-container').appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Function to apply power-up effects
+        function applyPowerUp(type) {
+            switch (type) {
+                case 'health':
+                    health = Math.min(maxHealth, health + 30); // Restore health, not exceeding max
+                    break;
+                case 'bigBullets':
+                    powerUpEffects.bigBullets.active = true;
+                    powerUpEffects.bigBullets.timeLeft = powerUpEffects.bigBullets.duration;
+                    break;
+                case 'multiGun':
+                    powerUpEffects.multiGun.active = true;
+                    powerUpEffects.multiGun.timeLeft = powerUpEffects.multiGun.duration;
+                    break;
+                case 'maxHealth':
+                    maxHealth = 150; // Increase max health temporarily
+                    health = maxHealth; // Fully restore health to new max
+                    powerUpEffects.maxHealth.active = true;
+                    powerUpEffects.maxHealth.timeLeft = powerUpEffects.maxHealth.duration;
+                    break;
+                case 'shield':
+                    powerUpEffects.shield.active = true;
+                    powerUpEffects.shield.timeLeft = powerUpEffects.shield.duration;
+                    player.invincible = true; // Make player invincible
+                    break;
+                case 'rapidFire':
+                    powerUpEffects.rapidFire.active = true;
+                    powerUpEffects.rapidFire.timeLeft = powerUpEffects.rapidFire.duration;
+                    player.fireRate = 50; // Reduce fire rate for rapid fire
+                    break;
+                case 'scoreMultiplier':
+                    powerUpEffects.scoreMultiplier.active = true;
+                    powerUpEffects.scoreMultiplier.timeLeft = powerUpEffects.scoreMultiplier.duration;
+                    break;
+            }
+        }
+
+        // Function to handle game over state
+        function gameOver() {
+            gameRunning = false;
+            document.getElementById('finalScore').textContent = score; // Display final score
+            document.getElementById('finalLevel').textContent = level; // Display final level
+            document.getElementById('gameOverScreen').classList.remove('hidden'); // Show game over screen
+
+            // Show ad container when game ends
+            adContainer.style.height = '200px'; // Use the larger ad height
+            adContainer.style.opacity = '1';
+            adContainer.style.pointerEvents = 'auto'; /* Enable interactions */
+            pauseButton.style.display = 'none'; // Hide pause button
+            
+            // Restore game container height to accommodate ad
+            const statsHeight = document.querySelector('.game-statistics').offsetHeight;
+            const totalVerticalGap = 10 * 2; // Gap above and below game container
+            const adHeight = 200; // Fixed ad height
+            gameContainer.style.maxHeight = `calc(100% - ${statsHeight}px - ${totalVerticalGap}px - ${adHeight}px - 10px)`;
+            resizeCanvas(); // Recalculate canvas size after container height change
+        }
+
+        // Main drawing function
+        function draw() {
+            // Clear canvas with black background
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw stars background
+            stars.forEach(star => {
+                ctx.globalAlpha = star.opacity; // Apply star opacity
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(star.x, star.y, star.size, star.size);
+            });
+            ctx.globalAlpha = 1; // Reset global alpha
+
+            // Draw player ship
+            // Apply hit effect if active
+            if (player.hitEffectTime > Date.now()) {
+                ctx.fillStyle = 'red'; // Flash red
+            } else {
+                ctx.fillStyle = player.color;
+            }
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Draw player glow effect
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            ctx.shadowBlur = 0; // Reset shadow blur
+
+            // Draw shield effect if active
+            if (player.invincible) {
+                ctx.strokeStyle = '#8e44ad'; // Purple color for shield
+                ctx.lineWidth = 4;
+                ctx.globalAlpha = 0.6 + Math.sin(Date.now() * 0.005) * 0.2; // Pulsating effect
+                ctx.beginPath();
+                ctx.arc(player.x + player.width / 2, player.y + player.height / 2, player.width * 0.8, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.globalAlpha = 1; // Reset global alpha
+                ctx.lineWidth = 1; // Reset line width
+            }
+
+            // Draw bullets
+            bullets.forEach(bullet => {
+                ctx.fillStyle = bullet.color;
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                
+                // Add glow effect for big bullets
+                if (bullet.width > 5) { // Check if it's a big bullet
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = bullet.color;
+                    ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                    ctx.shadowBlur = 0;
+                }
+            });
+
+            // Draw enemy bullets
+            enemyBullets.forEach(bullet => {
+                ctx.fillStyle = bullet.color;
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+
+            // Draw enemies
+            enemies.forEach(enemy => {
+                ctx.fillStyle = enemy.color;
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                
+                // Draw health bar for tank enemies
+                if (enemy.type === 'tank' && enemy.health > 0) { 
+                    const barWidth = enemy.width;
+                    const barHeight = 4;
+                    const barX = enemy.x;
+                    const barY = enemy.y - 8;
+                    
+                    ctx.fillStyle = 'rgba(255, 0, 0, 0.7)'; // Red background for health bar
+                    ctx.fillRect(barX, barY, barWidth, barHeight);
+                    
+                    const currentHealthWidth = (enemy.health / 3) * barWidth; // Assuming max health of 3 for tank
+                    ctx.fillStyle = 'rgba(0, 255, 0, 0.9)'; // Green fill for current health
+                    ctx.fillRect(barX, barY, currentHealthWidth, barHeight);
+                }
+            });
+
+            // Draw power-ups with rotation
+            powerUps.forEach(powerUp => {
+                ctx.save(); // Save current canvas state
+                ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2); // Move origin to center of power-up
+                ctx.rotate(powerUp.rotation * Math.PI / 180); // Apply rotation
+                ctx.fillStyle = powerUp.color;
+                ctx.fillRect(-powerUp.width/2, -powerUp.height/2, powerUp.width, powerUp.height); // Draw power-up
+                
+                // Draw power-up symbol (emoji)
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(powerUp.symbol, 0, 0);
+                
+                ctx.restore(); // Restore canvas state
+            });
+
+            // Draw particles
+            particles.forEach(particle => {
+                ctx.globalAlpha = particle.life / 30; // Fade out particles
+                ctx.fillStyle = particle.color;
+                ctx.fillRect(particle.x, particle.y, 2, 2);
+            });
+            ctx.globalAlpha = 1; // Reset global alpha
+
+            // Draw pause overlay
+            if (gamePaused) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; // Semi-transparent black overlay
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#fff';
+                ctx.font = '48px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('PAUSED', canvas.width / 2, canvas.height / 2);
+            }
+        }
+
+        // Main game loop
+        function gameLoop() {
+            if (!gameRunning) return; // Stop loop if game is not running
+            if (gamePaused) return; // Stop loop if game is paused
+
+            // Update game elements if not paused
+            updatePlayer();
+            updateBullets();
+            updateEnemyBullets(); // New: update enemy bullets
+            updateEnemies();
+            updatePowerUps();
+            updatePowerUpEffects(); // New: update power-up timers
+            updateStars();
+            updateParticles();
+            healthRegeneration(); // New: passive health regeneration
+            checkCollisions();
+            
+            spawnEnemy();
+            spawnPowerUp();
+            
+            updateUI(); // Update UI
+            
+
+            draw(); // Redraw everything
+            requestAnimationFrame(gameLoop); // Request next frame
+        }
+
+        // Initialize the game when the window loads
+        window.onload = function() {
+            // Initialize unique user ID
+            userUniqueId = localStorage.getItem('gameUserId');
+            if (!userUniqueId) {
+                userUniqueId = crypto.randomUUID();
+                localStorage.setItem('gameUserId', userUniqueId);
+            }
+            displayUserId.textContent = userUniqueId; // Display the unique ID
+            displayUsername.textContent = loggedInUsername; // Display default username
+
+            resizeCanvas(); // Set initial canvas size
+            pauseButton.style.display = 'none'; // Hide pause button initially
+            // The start screen is now shown by default.
+        };
+
+        // Listen for window resize events to adjust canvas
+        window.addEventListener('resize', resizeCanvas);
+    </script>
+</body>
+</html>
+ 
